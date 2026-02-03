@@ -170,7 +170,7 @@ async function loadQuestions() {
         return await response.json();
     } catch (error) {
         console.error('Error loading questions:', error);
-        showNotification('Failed to load questions. Please refresh the page.', 'error');
+        showNotification('載入題目失敗，請重新整理頁面。', 'error');
         return [];
     }
 }

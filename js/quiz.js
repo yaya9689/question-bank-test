@@ -19,7 +19,7 @@ class QuizManager {
         this.questions = await loadQuestions();
         
         if (this.questions.length === 0) {
-            this.showError('No questions available');
+            this.showError('無法載入題目');
             return;
         }
 
@@ -181,28 +181,28 @@ class QuizManager {
         const container = document.querySelector('.quiz-container');
         container.innerHTML = `
             <div class="quiz-complete">
-                <h2>🎉 Quiz Complete!</h2>
-                <p>Congratulations on completing all ${stats.total} questions!</p>
+                <h2>🎉 測驗完成！</h2>
+                <p>恭喜你完成所有 ${stats.total} 道題目！</p>
                 
                 <div class="stats-summary">
                     <div class="stat-item">
                         <div class="stat-number">${stats.correct}</div>
-                        <div class="stat-label">Correct</div>
+                        <div class="stat-label">答對</div>
                     </div>
                     <div class="stat-item">
                         <div class="stat-number">${stats.incorrect}</div>
-                        <div class="stat-label">Incorrect</div>
+                        <div class="stat-label">答錯</div>
                     </div>
                     <div class="stat-item">
                         <div class="stat-number">${stats.accuracy}%</div>
-                        <div class="stat-label">Accuracy</div>
+                        <div class="stat-label">正確率</div>
                     </div>
                 </div>
 
                 <div class="action-buttons" style="margin-top: 30px;">
-                    <button class="btn btn-primary" onclick="window.location.href='stats.html'">View Statistics</button>
-                    <button class="btn btn-secondary" onclick="window.location.href='mistakes.html'">Review Mistakes</button>
-                    <button class="btn btn-secondary" onclick="window.location.href='index.html'">Back to Home</button>
+                    <button class="btn btn-primary" onclick="window.location.href='stats.html'">查看統計</button>
+                    <button class="btn btn-secondary" onclick="window.location.href='mistakes.html'">錯題回顧</button>
+                    <button class="btn btn-secondary" onclick="window.location.href='index.html'">返回首頁</button>
                 </div>
             </div>
         `;
@@ -247,9 +247,9 @@ class QuizManager {
         const container = document.querySelector('.quiz-container');
         container.innerHTML = `
             <div class="quiz-complete">
-                <h2>⚠️ Error</h2>
+                <h2>⚠️ 錯誤</h2>
                 <p>${message}</p>
-                <button class="btn btn-primary" onclick="window.location.href='index.html'">Back to Home</button>
+                <button class="btn btn-primary" onclick="window.location.href='index.html'">返回首頁</button>
             </div>
         `;
     }
@@ -261,7 +261,7 @@ let quizManager;
 document.addEventListener('DOMContentLoaded', function() {
     // Check if LocalStorage is available
     if (!ProgressManager.isAvailable()) {
-        alert('LocalStorage is not available. Progress cannot be saved.');
+        alert('瀏覽器不支援本地儲存功能，無法儲存進度。');
     }
 
     quizManager = new QuizManager();
@@ -275,7 +275,7 @@ function nextQuestion() {
 }
 
 function goHome() {
-    if (confirm('Are you sure you want to leave? Your progress will be saved.')) {
+    if (confirm('確定要離開嗎？你的進度將會被儲存。')) {
         window.location.href = 'index.html';
     }
 }

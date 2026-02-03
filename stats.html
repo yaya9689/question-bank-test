@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Statistics - Coast Guard Exam</title>
+    <title>統計資料 - 海巡署考試題庫</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/animations.css">
     <link rel="stylesheet" href="css/responsive.css">
@@ -11,15 +11,15 @@
 <body>
     <div class="container">
         <header class="page-header">
-            <button class="back-btn" onclick="goHome()">← Back to Home</button>
-            <h1>📊 Your Statistics</h1>
+            <button class="back-btn" onclick="goHome()">← 返回首頁</button>
+            <h1>📊 你的統計資料</h1>
         </header>
 
         <div class="stats-container">
             <div class="stat-card-large">
-                <div class="stat-title">Progress</div>
+                <div class="stat-title">進度</div>
                 <div class="stat-value" id="completedCount">0</div>
-                <div class="stat-label">of <span id="totalCount">119</span> questions completed</div>
+                <div class="stat-label">共 <span id="totalCount">119</span> 題，已完成</div>
                 <div class="progress-bar-large">
                     <div class="progress-fill-large" id="progressFillLarge"></div>
                 </div>
@@ -29,23 +29,23 @@
                 <div class="stat-card">
                     <div class="stat-icon">✓</div>
                     <div class="stat-value" id="correctCount">0</div>
-                    <div class="stat-label">Correct Answers</div>
+                    <div class="stat-label">答對</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon">✗</div>
                     <div class="stat-value" id="incorrectCount">0</div>
-                    <div class="stat-label">Incorrect Answers</div>
+                    <div class="stat-label">答錯</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon">📈</div>
                     <div class="stat-value" id="accuracyRate">0%</div>
-                    <div class="stat-label">Accuracy Rate</div>
+                    <div class="stat-label">正確率</div>
                 </div>
             </div>
 
             <div class="action-buttons">
-                <button class="btn btn-primary" onclick="continueQuiz()">Continue Practice</button>
-                <button class="btn btn-secondary" onclick="resetProgress()">Reset Progress</button>
+                <button class="btn btn-primary" onclick="continueQuiz()">繼續練習</button>
+                <button class="btn btn-secondary" onclick="resetProgress()">重置進度</button>
             </div>
         </div>
     </div>
@@ -88,12 +88,12 @@
         }
 
         function resetProgress() {
-            if (confirm('Are you sure you want to reset all progress? This cannot be undone.')) {
+            if (confirm('確定要重置所有進度嗎？此操作無法復原。')) {
                 const storage = new ProgressManager();
                 storage.resetProgress();
                 // Show toast and reload after user can see it
                 if (window.showToast) {
-                    showToast('Progress has been reset successfully!', 'success');
+                    showToast('進度已成功重置！', 'success');
                 }
                 setTimeout(() => location.reload(), 3500);
             }
