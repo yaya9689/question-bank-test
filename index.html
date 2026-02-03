@@ -8,40 +8,53 @@
     <link rel="stylesheet" href="css/responsive.css">
 </head>
 <body>
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+        <span id="themeIcon">🌙</span>
+    </button>
+
+    <!-- Loading Animation -->
+    <div class="loader-container" id="loader">
+        <div class="loader">
+            <div class="loader-ring"></div>
+            <div class="loader-text">Loading Questions...</div>
+        </div>
+    </div>
+
     <div class="container">
-        <header class="hero">
+        <header class="hero fade-in-up">
             <div class="hero-icon">⚓</div>
             <h1>Coast Guard Exam Preparation</h1>
             <p class="subtitle">海巡署測驗題庫</p>
             <p class="description">Master the official question bank. Practice with real questions, track your progress, and boost your confidence.</p>
         </header>
 
-        <div class="features">
-            <div class="feature-card">
+        <div class="features stagger-animation">
+            <div class="feature-card fade-in-up">
                 <div class="feature-icon">📖</div>
                 <h3>Official Questions</h3>
                 <p>Comprehensive database of authentic exam questions</p>
             </div>
-            <div class="feature-card">
+            <div class="feature-card fade-in-up">
                 <div class="feature-icon">🏆</div>
                 <h3>Instant Feedback</h3>
                 <p>Learn immediately from correct and incorrect answers</p>
             </div>
-            <div class="feature-card">
+            <div class="feature-card fade-in-up">
                 <div class="feature-icon">🛡️</div>
                 <h3>Exam Readiness</h3>
                 <p>Simulate the real exam environment</p>
             </div>
         </div>
 
-        <div class="start-section">
+        <div class="start-section fade-in-up">
             <button class="btn-start" onclick="startQuiz()">
-                Start Practice Quiz
+                <span>Start Practice Quiz</span>
             </button>
             <p class="question-count">119 Questions</p>
         </div>
 
-        <div class="navigation-links">
+        <div class="navigation-links fade-in-up">
             <a href="stats.html" class="nav-link">📊 View Statistics</a>
             <a href="mistakes.html" class="nav-link">❌ Review Mistakes</a>
         </div>

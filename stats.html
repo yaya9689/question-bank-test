@@ -8,6 +8,11 @@
     <link rel="stylesheet" href="css/responsive.css">
 </head>
 <body>
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+        <span id="themeIcon">🌙</span>
+    </button>
+
     <div class="container">
         <header class="page-header">
             <button class="back-btn" onclick="goHome()">← Back to Home</button>
@@ -52,8 +57,37 @@
     <script src="js/storage.js"></script>
     <script src="js/utils.js"></script>
     <script>
+        // Theme functions
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            const icon = document.getElementById('themeIcon');
+            icon.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+            
+            const toggleBtn = document.querySelector('.theme-toggle');
+            toggleBtn.style.transform = 'rotate(360deg)';
+            setTimeout(() => {
+                toggleBtn.style.transform = '';
+            }, 300);
+        }
+
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            const icon = document.getElementById('themeIcon');
+            if (icon) {
+                icon.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+            }
+        }
+
         // Load statistics on page load
         document.addEventListener('DOMContentLoaded', function() {
+            initTheme();
+            
             const storage = new ProgressManager();
             const stats = storage.getStatistics();
             

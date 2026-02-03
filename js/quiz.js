@@ -1,6 +1,41 @@
 /**
  * QuizManager - Main quiz logic and UI control
  */
+
+// Theme toggle function
+function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    
+    // Update icon
+    const icon = document.getElementById('themeIcon');
+    if (icon) {
+        icon.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+    }
+    
+    // Icon rotation animation
+    const toggleBtn = document.querySelector('.theme-toggle');
+    if (toggleBtn) {
+        toggleBtn.style.transform = 'rotate(360deg)';
+        setTimeout(() => {
+            toggleBtn.style.transform = '';
+        }, 300);
+    }
+}
+
+// Initialize theme
+function initTheme() {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    const icon = document.getElementById('themeIcon');
+    if (icon) {
+        icon.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+    }
+}
+
 class QuizManager {
     constructor() {
         this.questions = [];
@@ -15,6 +50,9 @@ class QuizManager {
      * Initialize quiz
      */
     async init() {
+        // Initialize theme
+        initTheme();
+        
         // Load questions
         this.questions = await loadQuestions();
         
@@ -49,13 +87,22 @@ class QuizManager {
         document.getElementById('currentQuestion').textContent = this.currentIndex + 1;
         document.getElementById('totalQuestions').textContent = this.questions.length;
 
-        // Update progress bar
+        // Update progress bar with animation
         const progress = ((this.currentIndex + 1) / this.questions.length) * 100;
-        document.getElementById('progressBar').style.width = progress + '%';
-        document.getElementById('progressPercentage').textContent = Math.round(progress) + '%';
+        const progressBar = document.getElementById('progressBar');
+        const progressText = document.getElementById('progressPercentage');
+        
+        progressBar.style.width = progress + '%';
+        this.animateNumber(progressText, parseInt(progressText.textContent), Math.round(progress), 500);
 
-        // Update question text
-        document.getElementById('questionText').textContent = question.question;
+        // Update question text with fade-in
+        const questionEl = document.getElementById('questionText');
+        questionEl.style.opacity = '0';
+        setTimeout(() => {
+            questionEl.textContent = question.question;
+            questionEl.style.transition = 'opacity 0.3s ease';
+            questionEl.style.opacity = '1';
+        }, 100);
 
         // Render options
         this.renderOptions(question);
@@ -68,6 +115,24 @@ class QuizManager {
     }
 
     /**
+     * Animate number counter
+     */
+    animateNumber(element, from, to, duration) {
+        const range = to - from;
+        const increment = range / (duration / 16);
+        let current = from;
+        
+        const timer = setInterval(() => {
+            current += increment;
+            if ((increment > 0 && current >= to) || (increment < 0 && current <= to)) {
+                current = to;
+                clearInterval(timer);
+            }
+            element.textContent = Math.round(current) + '%';
+        }, 16);
+    }
+
+    /**
      * Render answer options
      */
     renderOptions(question) {
@@ -76,8 +141,16 @@ class QuizManager {
 
         const optionKeys = Object.keys(question.options);
         
-        optionKeys.forEach(key => {
+        optionKeys.forEach((key, index) => {
             const optionCard = this.createOptionCard(key, question.options[key], question.correctAnswer);
+            // Stagger animation
+            optionCard.style.opacity = '0';
+            optionCard.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+                optionCard.style.transition = 'all 0.3s ease';
+                optionCard.style.opacity = '1';
+                optionCard.style.transform = 'translateY(0)';
+            }, 100 + (index * 50));
             optionsSection.appendChild(optionCard);
         });
     }
@@ -98,7 +171,7 @@ class QuizManager {
 
         card.addEventListener('click', () => {
             if (!this.answered) {
-                this.selectOption(key, correctAnswer);
+                this.selectOption(key, correctAnswer, card);
             }
         });
 
@@ -108,7 +181,7 @@ class QuizManager {
     /**
      * Handle option selection
      */
-    selectOption(selectedKey, correctAnswer) {
+    selectOption(selectedKey, correctAnswer, selectedCard) {
         if (this.answered) return;
 
         this.selectedAnswer = selectedKey;
@@ -217,19 +290,23 @@ class QuizManager {
                 margin: 30px 0;
             }
             .stat-item {
-                background: var(--background-color);
+                background: rgba(0, 0, 0, 0.05);
                 padding: 20px;
-                border-radius: 12px;
+                border-radius: 15px;
+                backdrop-filter: blur(10px);
             }
             .stat-item .stat-number {
                 font-size: 36px;
                 font-weight: 700;
-                color: var(--primary-color);
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
                 margin-bottom: 5px;
             }
             .stat-item .stat-label {
                 font-size: 14px;
-                color: var(--text-gray);
+                color: var(--text-secondary);
             }
             @media (max-width: 375px) {
                 .stats-summary {

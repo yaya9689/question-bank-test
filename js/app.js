@@ -7,8 +7,49 @@ function startQuiz() {
     window.location.href = 'quiz.html';
 }
 
+// Theme toggle function
+function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    
+    // Update icon
+    const icon = document.getElementById('themeIcon');
+    icon.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+    
+    // Icon rotation animation
+    const toggleBtn = document.querySelector('.theme-toggle');
+    toggleBtn.style.transform = 'rotate(360deg)';
+    setTimeout(() => {
+        toggleBtn.style.transform = '';
+    }, 300);
+}
+
+// Initialize theme
+function initTheme() {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    const icon = document.getElementById('themeIcon');
+    if (icon) {
+        icon.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+    }
+}
+
 // Initialize homepage
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize theme
+    initTheme();
+    
+    // Hide loader after a short delay
+    setTimeout(() => {
+        const loader = document.getElementById('loader');
+        if (loader) {
+            loader.classList.add('hidden');
+        }
+    }, 500);
+    
     // Check LocalStorage availability
     if (!ProgressManager || !ProgressManager.isAvailable()) {
         console.warn('LocalStorage is not available');
@@ -23,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const questionCountEl = document.querySelector('.question-count');
     if (questionCountEl && stats.completed > 0) {
         questionCountEl.innerHTML = `
-            ${stats.total} Questions <span style="color: var(--success-color);">(${stats.completed} completed)</span>
+            ${stats.total} Questions <span style="color: rgba(52, 168, 83, 1);">(${stats.completed} completed)</span>
         `;
     }
 
@@ -38,16 +79,10 @@ function animateFeatureCards() {
     const cards = document.querySelectorAll('.feature-card');
     
     cards.forEach((card, index) => {
+        // Cards already have fade-in-up class, just ensure they're visible
         setTimeout(() => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(20px)';
-            
-            setTimeout(() => {
-                card.style.transition = 'all 0.5s ease';
-                card.style.opacity = '1';
-                card.style.transform = 'translateY(0)';
-            }, 50);
-        }, index * 100);
+            card.style.opacity = '1';
+        }, 100 + (index * 100));
     });
 }
 
