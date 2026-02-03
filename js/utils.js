@@ -53,39 +53,42 @@ function debounce(func, wait) {
 }
 
 /**
- * Show notification/toast message
+ * Show notification/toast message with glassmorphism design
  * @param {string} message - Message to display
  * @param {string} type - Type of notification (success, error, info)
  */
 function showNotification(message, type = 'info') {
-    const notification = document.createElement('div');
-    notification.className = `notification notification-${type}`;
-    notification.textContent = message;
-    notification.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: ${type === 'success' ? '#34A853' : type === 'error' ? '#EA4335' : '#4285F4'};
-        color: white;
-        padding: 15px 25px;
-        border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        z-index: 10000;
-        animation: slideIn 0.3s ease-out;
-    `;
+    // Remove existing toasts
+    const existingToasts = document.querySelectorAll('.toast');
+    existingToasts.forEach(toast => toast.remove());
 
-    document.body.appendChild(notification);
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    toast.textContent = message;
+    
+    document.body.appendChild(toast);
 
+    // Trigger animation
+    setTimeout(() => toast.classList.add('show'), 10);
+    
+    // Remove after 3 seconds
     setTimeout(() => {
-        notification.style.animation = 'slideOut 0.3s ease-out';
-        setTimeout(() => {
-            document.body.removeChild(notification);
-        }, 300);
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
     }, 3000);
 }
 
 /**
- * Add slide in/out animations
+ * Enhanced toast notification system
+ * @param {string} message - Message to display
+ * @param {string} type - Type of toast (success, error, info, warning)
+ */
+function showToast(message, type = 'info') {
+    showNotification(message, type);
+}
+
+/**
+ * Add slide in/out animations and toast styles
  */
 if (typeof document !== 'undefined') {
     const style = document.createElement('style');
@@ -109,6 +112,46 @@ if (typeof document !== 'undefined') {
                 transform: translateX(100%);
                 opacity: 0;
             }
+        }
+        
+        /* Toast Notification Styles */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            font-weight: 500;
+            transform: translateX(400px);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 10000;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            min-width: 250px;
+        }
+        
+        .toast.show {
+            transform: translateX(0);
+        }
+        
+        .toast-success {
+            border-left: 4px solid #34A853;
+        }
+        
+        .toast-error {
+            border-left: 4px solid #EA4335;
+        }
+        
+        .toast-warning {
+            border-left: 4px solid #FBBC04;
+        }
+        
+        .toast-info {
+            border-left: 4px solid #4285F4;
         }
     `;
     document.head.appendChild(style);
@@ -186,6 +229,7 @@ if (typeof window !== 'undefined') {
         formatPercentage,
         debounce,
         showNotification,
+        showToast,
         loadQuestions,
         formatDate,
         isMobile,

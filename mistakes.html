@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Review Mistakes - Coast Guard Exam</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
     <link rel="stylesheet" href="css/responsive.css">
 </head>
 <body>
@@ -27,6 +28,7 @@
 
     <script src="js/storage.js"></script>
     <script src="js/utils.js"></script>
+    <script src="js/animations.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', async function() {
             await loadMistakes();
@@ -52,10 +54,12 @@
             const allQuestions = await response.json();
 
             listEl.innerHTML = '';
-            mistakes.forEach(mistakeId => {
+            mistakes.forEach((mistakeId, index) => {
                 const question = allQuestions.find(q => q.id === mistakeId);
                 if (question) {
                     const mistakeCard = createMistakeCard(question, storage.getAnswer(mistakeId));
+                    mistakeCard.classList.add('animate-on-scroll');
+                    mistakeCard.style.animationDelay = `${index * 0.1}s`;
                     listEl.appendChild(mistakeCard);
                 }
             });
@@ -95,16 +99,20 @@
 
     <style>
         .mistakes-summary {
-            background: #f8f9fa;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
             padding: 20px;
-            border-radius: 12px;
+            border-radius: 20px;
             margin-bottom: 30px;
             text-align: center;
+            color: rgba(255, 255, 255, 0.9);
         }
 
         .no-mistakes {
             font-size: 18px;
-            color: #34A853;
+            color: var(--success-color);
         }
 
         .mistakes-list {
@@ -114,18 +122,29 @@
         }
 
         .mistake-card {
-            background: white;
-            border: 1px solid #e0e0e0;
-            border-radius: 12px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-left: 4px solid var(--error-color);
+            border-radius: 16px;
             padding: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: var(--glass-shadow);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: slideInLeft 0.5s ease-out;
+            animation-fill-mode: both;
+        }
+
+        .mistake-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 8px 24px rgba(234, 67, 53, 0.2);
         }
 
         .mistake-question {
             font-size: 16px;
             line-height: 1.6;
             margin-bottom: 15px;
-            color: #333;
+            color: rgba(255, 255, 255, 0.95);
         }
 
         .mistake-answers {
@@ -149,19 +168,21 @@
         }
 
         .answer-label.correct {
-            background: #d4edda;
-            color: #155724;
+            background: rgba(52, 168, 83, 0.2);
+            color: var(--success-light);
+            border: 1px solid var(--success-color);
         }
 
         .answer-label.incorrect {
-            background: #f8d7da;
-            color: #721c24;
+            background: rgba(234, 67, 53, 0.2);
+            color: var(--error-light);
+            border: 1px solid var(--error-color);
         }
 
         .answer-text {
             flex: 1;
             padding: 5px 0;
-            color: #666;
+            color: rgba(255, 255, 255, 0.8);
         }
     </style>
 </body>
