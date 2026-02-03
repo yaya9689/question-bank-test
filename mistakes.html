@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Review Mistakes - Coast Guard Exam</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <div class="container">
+        <header class="page-header">
+            <button class="back-btn" onclick="goHome()">← Back to Home</button>
+            <h1>❌ Review Your Mistakes</h1>
+        </header>
+
+        <div class="mistakes-container">
+            <div class="mistakes-summary" id="mistakesSummary">
+                <p>Loading mistakes...</p>
+            </div>
+
+            <div class="mistakes-list" id="mistakesList">
+                <!-- Mistakes will be dynamically loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="js/storage.js"></script>
+    <script src="js/utils.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            await loadMistakes();
+        });
+
+        async function loadMistakes() {
+            const storage = new ProgressManager();
+            const mistakes = storage.getMistakes();
+            
+            const summaryEl = document.getElementById('mistakesSummary');
+            const listEl = document.getElementById('mistakesList');
+
+            if (mistakes.length === 0) {
+                summaryEl.innerHTML = '<p class="no-mistakes">🎉 Great job! You haven\'t made any mistakes yet.</p>';
+                listEl.innerHTML = '';
+                return;
+            }
+
+            summaryEl.innerHTML = `<p>You have <strong>${mistakes.length}</strong> incorrect answer(s). Review them below:</p>`;
+
+            // Load questions
+            const response = await fetch('data/questions.json');
+            const allQuestions = await response.json();
+
+            listEl.innerHTML = '';
+            mistakes.forEach(mistakeId => {
+                const question = allQuestions.find(q => q.id === mistakeId);
+                if (question) {
+                    const mistakeCard = createMistakeCard(question, storage.getAnswer(mistakeId));
+                    listEl.appendChild(mistakeCard);
+                }
+            });
+        }
+
+        function createMistakeCard(question, userAnswer) {
+            const card = document.createElement('div');
+            card.className = 'mistake-card';
+            
+            const optionLabels = ['A', 'B', 'C', 'D'];
+            const correctAnswerText = question.options[question.correctAnswer];
+            const userAnswerText = userAnswer ? question.options[userAnswer] : 'Not answered';
+
+            card.innerHTML = `
+                <div class="mistake-question">
+                    <strong>Question ${question.id}:</strong> ${question.question}
+                </div>
+                <div class="mistake-answers">
+                    <div class="answer-row">
+                        <span class="answer-label incorrect">Your Answer:</span>
+                        <span class="answer-text">${userAnswer}: ${userAnswerText}</span>
+                    </div>
+                    <div class="answer-row">
+                        <span class="answer-label correct">Correct Answer:</span>
+                        <span class="answer-text">${question.correctAnswer}: ${correctAnswerText}</span>
+                    </div>
+                </div>
+            `;
+
+            return card;
+        }
+
+        function goHome() {
+            window.location.href = 'index.html';
+        }
+    </script>
+
+    <style>
+        .mistakes-summary {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .no-mistakes {
+            font-size: 18px;
+            color: #34A853;
+        }
+
+        .mistakes-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .mistake-card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .mistake-question {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .mistake-answers {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .answer-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .answer-label {
+            font-weight: bold;
+            min-width: 130px;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .answer-label.correct {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .answer-label.incorrect {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .answer-text {
+            flex: 1;
+            padding: 5px 0;
+            color: #666;
+        }
+    </style>
+</body>
+</html>
