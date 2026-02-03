@@ -1,41 +1,148 @@
-# Question Bank Test
+# Coast Guard Exam Preparation - 海巡署測驗題庫
 
-## 專案說明
-這是一個 Question Bank Test 專案，旨在提供一個可擴充的問題庫系統，適用於各種學習和測驗的需求。
+A comprehensive web application for practicing Coast Guard exam questions with instant feedback, progress tracking, and performance statistics.
 
-## 功能特色
-- **問題管理**: 可以新增、編輯和刪除問題。
-- **分類管理**: 支援問題分類，使用者可以根據需求篩選問題。
-- **考試模組**: 提供考試模組，將問題組合成不同的考試。
-- **統計分析**: 提供考試結果的統計分析功能，幫助使用者了解學習進度。
+## Features
 
-## 使用說明
-1. **安裝專案**:
-   - 下載此專案至本地。
-   - 使用 `npm install` 安裝所需依賴。
+### 📖 Official Questions
+- Complete database of 119 authentic Coast Guard exam questions
+- Covers law, maritime regulations, and practical case analyses
+- Questions in Traditional Chinese
 
-2. **啟動專案**:
-   - 使用 `npm start` 啟動伺服器，默認埠號為 3000。
+### 🏆 Instant Feedback System
+- Immediate visual feedback on answer selection
+- Green highlight with ✓ for correct answers
+- Red highlight with ✗ for incorrect answers, showing the correct answer
+- Other options become dimmed after selection
 
-3. **訪問應用程式**:
-   - 在瀏覽器中輸入 `http://localhost:3000` 訪問。
+### 📊 Progress Tracking
+- LocalStorage-based progress saving
+- Automatic resume from last question
+- Real-time progress percentage display
+- Question counter (e.g., "Question 5 of 119")
 
-## JSON 格式範例
-以下是問題的 JSON 格式範例:
+### 📈 Statistics Dashboard
+- Total questions completed
+- Correct/incorrect answer counts
+- Accuracy rate percentage
+- Visual progress bar
+- Option to reset progress
+
+### ❌ Mistakes Review
+- Review all incorrectly answered questions
+- Shows user's answer vs. correct answer
+- Helps focus on weak areas
+
+### 📱 Responsive Design
+- Mobile-first approach
+- Optimized for phones, tablets, and desktops
+- Clean and modern UI with smooth animations
+- Touch-friendly interface
+
+## Technology Stack
+
+- **HTML5**: Semantic markup
+- **CSS3**: Flexbox/Grid layouts, CSS Variables, animations
+- **Vanilla JavaScript (ES6+)**: Modular code organization
+- **LocalStorage API**: Progress persistence
+- **No external dependencies**: Pure HTML/CSS/JS
+
+## Project Structure
+
+```
+/
+├── index.html          # Homepage with feature showcase
+├── quiz.html           # Main quiz interface
+├── stats.html          # Statistics page
+├── mistakes.html       # Mistakes review page
+├── css/
+│   ├── style.css       # Global styles
+│   ├── quiz.css        # Quiz-specific styles
+│   └── responsive.css  # Responsive design rules
+├── js/
+│   ├── app.js          # Homepage logic
+│   ├── quiz.js         # Quiz manager and UI control
+│   ├── storage.js      # LocalStorage management
+│   └── utils.js        # Utility functions
+└── data/
+    └── questions.json  # 119 exam questions
+```
+
+## Usage
+
+### Running Locally
+
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/yaya9689/question-bank-test.git
+   cd question-bank-test
+   ```
+
+2. **Start a local server**:
+   ```bash
+   # Using Python 3
+   python3 -m http.server 8080
+   
+   # Or using Node.js
+   npx http-server -p 8080
+   ```
+
+3. **Open in browser**:
+   Navigate to `http://localhost:8080`
+
+### Deployment
+
+This application can be deployed to:
+- **GitHub Pages**: Just enable GitHub Pages in repository settings
+- **Netlify/Vercel**: Zero-configuration deployment
+- **Any static hosting**: Upload all files to your hosting provider
+
+No build process or server-side code required!
+
+## How to Use
+
+1. **Start**: Click "Start Practice Quiz" on the homepage
+2. **Answer**: Click on any option (A, B, C, or D) to select your answer
+3. **Feedback**: Instant visual feedback shows if you're correct or incorrect
+4. **Next**: Click "Next Question →" to proceed
+5. **Track**: View your statistics anytime via "View Statistics"
+6. **Review**: Check mistakes via "Review Mistakes"
+
+## Question Format
+
+Questions are stored in `data/questions.json`:
+
 ```json
 {
-  "questions": [
-    {
-      "id": 1,
-      "question": "什麼是物件導向程式設計？",
-      "options": [
-        "A. 一種程式設計方法",
-        "B. 一種資料庫類型",
-        "C. 一種網頁技術",
-        "D. 一種作業系統"
-      ],
-      "answer": "A"
-    }
-  ]
+  "id": 1,
+  "question": "海巡署之主要任務為何？",
+  "options": {
+    "A": "海域執法",
+    "B": "海洋保育",
+    "C": "海岸巡防",
+    "D": "以上皆是"
+  },
+  "correctAnswer": "D"
 }
 ```
+
+## Browser Support
+
+- Chrome/Edge (recommended)
+- Firefox
+- Safari
+- Opera
+- Requires LocalStorage support
+
+## License
+
+This project is open source and available under the MIT License.
+
+## Contributing
+
+Contributions are welcome! Feel free to:
+- Add more questions
+- Improve UI/UX
+- Add new features
+- Fix bugs
+- Improve documentation
