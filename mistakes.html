@@ -8,6 +8,11 @@
     <link rel="stylesheet" href="css/responsive.css">
 </head>
 <body>
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+        <span id="themeIcon">🌙</span>
+    </button>
+
     <div class="container">
         <header class="page-header">
             <button class="back-btn" onclick="goHome()">← Back to Home</button>
@@ -28,7 +33,35 @@
     <script src="js/storage.js"></script>
     <script src="js/utils.js"></script>
     <script>
+        // Theme functions
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            const icon = document.getElementById('themeIcon');
+            icon.textContent = newTheme === 'dark' ? '☀️' : '🌙';
+            
+            const toggleBtn = document.querySelector('.theme-toggle');
+            toggleBtn.style.transform = 'rotate(360deg)';
+            setTimeout(() => {
+                toggleBtn.style.transform = '';
+            }, 300);
+        }
+
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            const icon = document.getElementById('themeIcon');
+            if (icon) {
+                icon.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', async function() {
+            initTheme();
             await loadMistakes();
         });
 
@@ -52,10 +85,18 @@
             const allQuestions = await response.json();
 
             listEl.innerHTML = '';
-            mistakes.forEach(mistakeId => {
+            mistakes.forEach((mistakeId, index) => {
                 const question = allQuestions.find(q => q.id === mistakeId);
                 if (question) {
                     const mistakeCard = createMistakeCard(question, storage.getAnswer(mistakeId));
+                    // Add stagger animation
+                    mistakeCard.style.opacity = '0';
+                    mistakeCard.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        mistakeCard.style.transition = 'all 0.3s ease';
+                        mistakeCard.style.opacity = '1';
+                        mistakeCard.style.transform = 'translateY(0)';
+                    }, 100 + (index * 50));
                     listEl.appendChild(mistakeCard);
                 }
             });
@@ -74,12 +115,12 @@
                     <strong>Question ${question.id}:</strong> ${question.question}
                 </div>
                 <div class="mistake-answers">
-                    <div class="answer-row">
-                        <span class="answer-label incorrect">Your Answer:</span>
+                    <div class="mistake-answer your-answer">
+                        <span class="answer-label">Your Answer</span>
                         <span class="answer-text">${userAnswer}: ${userAnswerText}</span>
                     </div>
-                    <div class="answer-row">
-                        <span class="answer-label correct">Correct Answer:</span>
+                    <div class="mistake-answer correct-answer">
+                        <span class="answer-label">Correct Answer</span>
                         <span class="answer-text">${question.correctAnswer}: ${correctAnswerText}</span>
                     </div>
                 </div>
@@ -94,74 +135,137 @@
     </script>
 
     <style>
+        .mistakes-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
         .mistakes-summary {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             text-align: center;
         }
 
+        .mistakes-summary p {
+            font-size: 1.125rem;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
         .no-mistakes {
-            font-size: 18px;
-            color: #34A853;
+            font-size: 1.25rem;
+            background: linear-gradient(135deg, var(--success-green) 0%, var(--success-green-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 600;
         }
 
         .mistakes-list {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 1.5rem;
         }
 
         .mistake-card {
-            background: white;
-            border: 1px solid #e0e0e0;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            border-left: 4px solid var(--error-red);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .mistake-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
         }
 
         .mistake-question {
-            font-size: 16px;
-            line-height: 1.6;
-            margin-bottom: 15px;
-            color: #333;
+            font-size: 1.125rem;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .mistake-question strong {
+            color: var(--primary-blue);
+            font-weight: 700;
         }
 
         .mistake-answers {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 0.75rem;
         }
 
-        .answer-row {
+        .mistake-answer {
             display: flex;
-            align-items: flex-start;
-            gap: 10px;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
+        }
+
+        .mistake-answer.your-answer {
+            background: rgba(234, 67, 53, 0.1);
+            border: 1px solid var(--error-red);
+        }
+
+        .mistake-answer.correct-answer {
+            background: rgba(52, 168, 83, 0.1);
+            border: 1px solid var(--success-green);
         }
 
         .answer-label {
-            font-weight: bold;
-            min-width: 130px;
-            padding: 5px 10px;
-            border-radius: 6px;
-            font-size: 14px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            min-width: 110px;
         }
 
-        .answer-label.correct {
-            background: #d4edda;
-            color: #155724;
+        .mistake-answer.your-answer .answer-label {
+            color: var(--error-red);
         }
 
-        .answer-label.incorrect {
-            background: #f8d7da;
-            color: #721c24;
+        .mistake-answer.correct-answer .answer-label {
+            color: var(--success-green);
         }
 
         .answer-text {
             flex: 1;
-            padding: 5px 0;
-            color: #666;
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+
+        @media (max-width: 375px) {
+            .mistake-card {
+                padding: 1.5rem;
+                border-radius: 15px;
+            }
+
+            .mistake-question {
+                font-size: 1rem;
+            }
+
+            .mistake-answer {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .answer-label {
+                min-width: auto;
+            }
         }
     </style>
 </body>
