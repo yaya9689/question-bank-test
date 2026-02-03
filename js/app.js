@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const questionCountEl = document.querySelector('.question-count');
     if (questionCountEl && stats.completed > 0) {
         questionCountEl.innerHTML = `
-            ${stats.total} Questions <span style="color: var(--success-color);">(${stats.completed} completed)</span>
+            119 道題目 <span style="color: var(--success-color);">(已完成 ${stats.completed} 題)</span>
         `;
     }
 

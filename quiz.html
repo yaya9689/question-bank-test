@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Practice Quiz - Coast Guard Exam</title>
+    <title>答題練習 - 海巡署考試題庫</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/animations.css">
     <link rel="stylesheet" href="css/quiz.css">
@@ -13,11 +13,11 @@
     <div class="quiz-container">
         <!-- Top Navigation -->
         <div class="quiz-header">
-            <button class="home-btn" onclick="goHome()" title="回到首頁">
+            <button class="home-btn" onclick="goHome()" title="返回首頁">
                 <span class="home-icon">🏠</span>
             </button>
             <div class="question-counter">
-                Question <span id="currentQuestion">1</span> of <span id="totalQuestions">119</span>
+                第 <span id="currentQuestion">1</span> 題 / 共 <span id="totalQuestions">119</span> 題
             </div>
             <div class="progress-section">
                 <div class="progress-bar">
@@ -30,7 +30,7 @@
         <!-- Question Content -->
         <div class="question-section">
             <div class="question-text" id="questionText">
-                Loading question...
+                載入題目中...
             </div>
         </div>
 
@@ -42,7 +42,7 @@
         <!-- Next Button -->
         <div class="button-section">
             <button class="btn-next" id="nextBtn" onclick="nextQuestion()" disabled>
-                Next Question →
+                下一題 →
             </button>
         </div>
     </div>

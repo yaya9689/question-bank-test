@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Review Mistakes - Coast Guard Exam</title>
+    <title>錯題回顧 - 海巡署考試題庫</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/animations.css">
     <link rel="stylesheet" href="css/responsive.css">
@@ -11,13 +11,13 @@
 <body>
     <div class="container">
         <header class="page-header">
-            <button class="back-btn" onclick="goHome()">← Back to Home</button>
-            <h1>❌ Review Your Mistakes</h1>
+            <button class="back-btn" onclick="goHome()">← 返回首頁</button>
+            <h1>📖 錯題回顧</h1>
         </header>
 
         <div class="mistakes-container">
             <div class="mistakes-summary" id="mistakesSummary">
-                <p>Loading mistakes...</p>
+                <p>載入錯題中...</p>
             </div>
 
             <div class="mistakes-list" id="mistakesList">
@@ -42,12 +42,12 @@
             const listEl = document.getElementById('mistakesList');
 
             if (mistakes.length === 0) {
-                summaryEl.innerHTML = '<p class="no-mistakes">🎉 Great job! You haven\'t made any mistakes yet.</p>';
+                summaryEl.innerHTML = '<p class="no-mistakes">🎉 太棒了！目前沒有答錯的題目！</p>';
                 listEl.innerHTML = '';
                 return;
             }
 
-            summaryEl.innerHTML = `<p>You have <strong>${mistakes.length}</strong> incorrect answer(s). Review them below:</p>`;
+            summaryEl.innerHTML = `<p>你有 <strong>${mistakes.length}</strong> 題答錯。請在下方複習：</p>`;
 
             // Load questions
             const response = await fetch('data/questions.json');
@@ -71,19 +71,19 @@
             
             const optionLabels = ['A', 'B', 'C', 'D'];
             const correctAnswerText = question.options[question.correctAnswer];
-            const userAnswerText = userAnswer ? question.options[userAnswer] : 'Not answered';
+            const userAnswerText = userAnswer ? question.options[userAnswer] : '未作答';
 
             card.innerHTML = `
                 <div class="mistake-question">
-                    <strong>Question ${question.id}:</strong> ${question.question}
+                    <strong>第 ${question.id} 題：</strong> ${question.question}
                 </div>
                 <div class="mistake-answers">
                     <div class="answer-row">
-                        <span class="answer-label incorrect">Your Answer:</span>
+                        <span class="answer-label incorrect">你的答案：</span>
                         <span class="answer-text">${userAnswer}: ${userAnswerText}</span>
                     </div>
                     <div class="answer-row">
-                        <span class="answer-label correct">Correct Answer:</span>
+                        <span class="answer-label correct">正確答案：</span>
                         <span class="answer-text">${question.correctAnswer}: ${correctAnswerText}</span>
                     </div>
                 </div>
