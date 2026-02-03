@@ -1,116 +1,116 @@
-# Coast Guard Exam Preparation - 海巡署測驗題庫
+# 海巡署考試題庫
 
-A comprehensive web application for practicing Coast Guard exam questions with instant feedback, progress tracking, and performance statistics.
+完整的海巡署考試題目練習系統，提供即時反饋、進度追蹤和統計分析功能。
 
-## Features
+## 功能特色
 
-### 📖 Official Questions
-- Complete database of 119 authentic Coast Guard exam questions
-- Covers law, maritime regulations, and practical case analyses
-- Questions in Traditional Chinese
+### 📖 官方題庫
+- 完整收錄 119 道真實海巡署考試題目
+- 涵蓋法律、海事法規和實務案例分析
+- 題目採用繁體中文
 
-### 🏆 Instant Feedback System
-- Immediate visual feedback on answer selection
-- Green highlight with ✓ for correct answers
-- Red highlight with ✗ for incorrect answers, showing the correct answer
-- Other options become dimmed after selection
+### 🏆 即時反饋系統
+- 選擇答案後立即顯示視覺化回饋
+- 答對時以綠色和 ✓ 標示
+- 答錯時以紅色和 ✗ 標示，並顯示正確答案
+- 其他選項在選擇後會變暗
 
-### 📊 Progress Tracking
-- LocalStorage-based progress saving
-- Automatic resume from last question
-- Real-time progress percentage display
-- Question counter (e.g., "Question 5 of 119")
+### 📊 進度追蹤
+- 使用瀏覽器本地儲存保存進度
+- 自動從上次作答位置繼續
+- 即時顯示完成百分比
+- 題目計數器（例如：「第 5 題 / 共 119 題」）
 
-### 📈 Statistics Dashboard
-- Total questions completed
-- Correct/incorrect answer counts
-- Accuracy rate percentage
-- Visual progress bar
-- Option to reset progress
+### 📈 統計儀表板
+- 已完成題數統計
+- 答對/答錯題數統計
+- 正確率百分比
+- 視覺化進度條
+- 可重置所有進度
 
-### ❌ Mistakes Review
-- Review all incorrectly answered questions
-- Shows user's answer vs. correct answer
-- Helps focus on weak areas
+### ❌ 錯題回顧
+- 複習所有答錯的題目
+- 顯示你的答案與正確答案對比
+- 幫助聚焦在弱點領域
 
-### 📱 Responsive Design
-- Mobile-first approach
-- Optimized for phones, tablets, and desktops
-- Clean and modern UI with smooth animations
-- Touch-friendly interface
+### 📱 響應式設計
+- 手機優先的設計方式
+- 針對手機、平板和桌機優化
+- 現代化清爽介面與流暢動畫
+- 觸控友善的操作界面
 
-## Technology Stack
+## 技術架構
 
-- **HTML5**: Semantic markup
-- **CSS3**: Flexbox/Grid layouts, CSS Variables, animations
-- **Vanilla JavaScript (ES6+)**: Modular code organization
-- **LocalStorage API**: Progress persistence
-- **No external dependencies**: Pure HTML/CSS/JS
+- **HTML5**: 語意化標記
+- **CSS3**: Flexbox/Grid 佈局、CSS 變數、動畫效果
+- **原生 JavaScript (ES6+)**: 模組化程式碼組織
+- **LocalStorage API**: 進度持久化
+- **無外部依賴**: 純 HTML/CSS/JS 實作
 
-## Project Structure
+## 專案結構
 
 ```
 /
-├── index.html          # Homepage with feature showcase
-├── quiz.html           # Main quiz interface
-├── stats.html          # Statistics page
-├── mistakes.html       # Mistakes review page
+├── index.html          # 首頁（功能展示）
+├── quiz.html           # 答題練習介面
+├── stats.html          # 統計資料頁面
+├── mistakes.html       # 錯題回顧頁面
 ├── css/
-│   ├── style.css       # Global styles
-│   ├── quiz.css        # Quiz-specific styles
-│   └── responsive.css  # Responsive design rules
+│   ├── style.css       # 全域樣式
+│   ├── quiz.css        # 答題頁專用樣式
+│   └── responsive.css  # 響應式設計規則
 ├── js/
-│   ├── app.js          # Homepage logic
-│   ├── quiz.js         # Quiz manager and UI control
-│   ├── storage.js      # LocalStorage management
-│   └── utils.js        # Utility functions
+│   ├── app.js          # 首頁邏輯
+│   ├── quiz.js         # 答題管理器和 UI 控制
+│   ├── storage.js      # LocalStorage 管理
+│   └── utils.js        # 工具函數
 └── data/
-    └── questions.json  # 119 exam questions
+    └── questions.json  # 119 道考試題目
 ```
 
-## Usage
+## 使用方式
 
-### Running Locally
+### 本地執行
 
-1. **Clone the repository**:
+1. **複製專案**:
    ```bash
    git clone https://github.com/yaya9689/question-bank-test.git
    cd question-bank-test
    ```
 
-2. **Start a local server**:
+2. **啟動本地伺服器**:
    ```bash
-   # Using Python 3
+   # 使用 Python 3
    python3 -m http.server 8080
    
-   # Or using Node.js
+   # 或使用 Node.js
    npx http-server -p 8080
    ```
 
-3. **Open in browser**:
-   Navigate to `http://localhost:8080`
+3. **在瀏覽器開啟**:
+   瀏覽到 `http://localhost:8080`
 
-### Deployment
+### 部署
 
-This application can be deployed to:
-- **GitHub Pages**: Just enable GitHub Pages in repository settings
-- **Netlify/Vercel**: Zero-configuration deployment
-- **Any static hosting**: Upload all files to your hosting provider
+本應用程式可部署到：
+- **GitHub Pages**: 在專案設定中啟用 GitHub Pages 即可
+- **Netlify/Vercel**: 零配置部署
+- **任何靜態網站主機**: 上傳所有檔案到你的主機供應商
 
-No build process or server-side code required!
+不需要建置流程或伺服器端程式碼！
 
-## How to Use
+## 如何使用
 
-1. **Start**: Click "Start Practice Quiz" on the homepage
-2. **Answer**: Click on any option (A, B, C, or D) to select your answer
-3. **Feedback**: Instant visual feedback shows if you're correct or incorrect
-4. **Next**: Click "Next Question →" to proceed
-5. **Track**: View your statistics anytime via "View Statistics"
-6. **Review**: Check mistakes via "Review Mistakes"
+1. **開始**: 點擊首頁的「開始練習」按鈕
+2. **作答**: 點擊任一選項（A、B、C 或 D）選擇你的答案
+3. **反饋**: 立即顯示視覺化回饋，告訴你答對或答錯
+4. **下一題**: 點擊「下一題 →」按鈕繼續
+5. **追蹤**: 隨時透過「查看統計」查看你的統計資料
+6. **複習**: 透過「錯題回顧」檢視答錯的題目
 
-## Question Format
+## 題目格式
 
-Questions are stored in `data/questions.json`:
+題目儲存於 `data/questions.json`：
 
 ```json
 {
@@ -126,23 +126,23 @@ Questions are stored in `data/questions.json`:
 }
 ```
 
-## Browser Support
+## 瀏覽器支援
 
-- Chrome/Edge (recommended)
+- Chrome/Edge（建議使用）
 - Firefox
 - Safari
 - Opera
-- Requires LocalStorage support
+- 需要 LocalStorage 支援
 
-## License
+## 授權條款
 
-This project is open source and available under the MIT License.
+本專案為開源專案，採用 MIT 授權條款。
 
-## Contributing
+## 貢獻
 
-Contributions are welcome! Feel free to:
-- Add more questions
-- Improve UI/UX
-- Add new features
-- Fix bugs
-- Improve documentation
+歡迎貢獻！你可以：
+- 新增更多題目
+- 改善 UI/UX
+- 新增功能
+- 修正錯誤
+- 改善文件
