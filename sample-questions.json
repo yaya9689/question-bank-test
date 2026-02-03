@@ -1,0 +1,40 @@
+[  {
+    "id": "1",
+    "question": "台灣的首都是哪裡？",
+    "type": "single",
+    "options": ["台北", "台中", "高雄", "台南"],
+    "correctAnswer": [0],
+    "subject": "社會",
+    "difficulty": "簡單",
+    "explanation": "台灣的首都是台北市",
+    "tags": ["地理", "台灣"],
+    "createdAt": "2026-02-03T00:00:00.000Z",
+    "updatedAt": "2026-02-03T00:00:00.000Z"
+  },
+  {
+    "id": "2",
+    "question": "下列哪些是程式語言？（多選）",
+    "type": "multiple",
+    "options": ["Python", "HTML", "Java", "CSS"],
+    "correctAnswer": [0, 2],
+    "subject": "資訊",
+    "difficulty": "中等",
+    "explanation": "Python 和 Java 是程式語言，HTML 和 CSS 是標記語言",
+    "tags": ["程式設計", "基礎"],
+    "createdAt": "2026-02-03T00:00:00.000Z",
+    "updatedAt": "2026-02-03T00:00:00.000Z"
+  },
+  {
+    "id": "3",
+    "question": "地球是圓的嗎？",
+    "type": "truefalse",
+    "options": ["是", "否"],
+    "correctAnswer": [0],
+    "subject": "自然",
+    "difficulty": "簡單",
+    "explanation": "地球是一個近似球體的形狀",
+    "tags": ["地球科學", "基礎"],
+    "createdAt": "2026-02-03T00:00:00.000Z",
+    "updatedAt": "2026-02-03T00:00:00.000Z"
+  }
+]
