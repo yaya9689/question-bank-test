@@ -104,6 +104,33 @@
     }
 }
 
+/* Mobile Touch Optimization */
+@media (max-width: 768px) {
+    /* Larger touch targets */
+    .option-card {
+        min-height: 60px;
+        padding: 20px;
+        font-size: 16px; /* Prevent iOS auto-zoom */
+    }
+    
+    .btn, .btn-start, .btn-next {
+        min-height: 50px;
+        font-size: 16px; /* Prevent iOS auto-zoom */
+        padding: 15px 30px;
+    }
+    
+    /* Touch feedback */
+    .option-card:active {
+        transform: scale(0.98);
+    }
+    
+    .btn:active,
+    .btn-start:active,
+    .btn-next:active {
+        transform: scale(0.98) !important;
+    }
+}
+
 /* Small Mobile (<375px) */
 @media (max-width: 375px) {
     body {
