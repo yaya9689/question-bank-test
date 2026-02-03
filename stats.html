@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Statistics - Coast Guard Exam</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
     <link rel="stylesheet" href="css/responsive.css">
 </head>
 <body>
@@ -51,6 +52,7 @@
 
     <script src="js/storage.js"></script>
     <script src="js/utils.js"></script>
+    <script src="js/animations.js"></script>
     <script>
         // Load statistics on page load
         document.addEventListener('DOMContentLoaded', function() {
@@ -64,7 +66,21 @@
             document.getElementById('accuracyRate').textContent = stats.accuracy + '%';
             
             const progressPercent = (stats.completed / stats.total * 100).toFixed(1);
-            document.getElementById('progressFillLarge').style.width = progressPercent + '%';
+            
+            // Animate progress bar
+            if (window.animations && window.animations.animateProgressBar) {
+                const progressBar = document.getElementById('progressFillLarge');
+                window.animations.animateProgressBar(progressBar, progressPercent);
+            } else {
+                document.getElementById('progressFillLarge').style.width = progressPercent + '%';
+            }
+            
+            // Animate counters
+            if (window.animations && window.animations.animateCounter) {
+                window.animations.animateCounter(document.getElementById('completedCount'), stats.completed, 1000);
+                window.animations.animateCounter(document.getElementById('correctCount'), stats.correct, 1000);
+                window.animations.animateCounter(document.getElementById('incorrectCount'), stats.incorrect, 1000);
+            }
         });
 
         function continueQuiz() {
@@ -75,7 +91,10 @@
             if (confirm('Are you sure you want to reset all progress? This cannot be undone.')) {
                 const storage = new ProgressManager();
                 storage.resetProgress();
-                location.reload();
+                if (window.showToast) {
+                    showToast('Progress has been reset successfully!', 'success');
+                }
+                setTimeout(() => location.reload(), 500);
             }
         }
 
