@@ -3,8 +3,8 @@
  */
 
 // Start quiz function
-function startQuiz() {
-    window.location.href = 'quiz.html';
+function startQuiz(random = false) {
+    window.location.href = random ? 'quiz.html?random=true' : 'quiz.html';
 }
 
 // Initialize homepage
@@ -25,6 +25,11 @@ document.addEventListener('DOMContentLoaded', function() {
         questionCountEl.innerHTML = `
             119 道題目 <span style="color: var(--success-color);">(已完成 ${stats.completed} 題)</span>
         `;
+    }
+
+    // Initialize dark mode
+    if (typeof initDarkMode === 'function') {
+        initDarkMode();
     }
 
     // Add animations
