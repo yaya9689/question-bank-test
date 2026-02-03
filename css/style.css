@@ -142,6 +142,20 @@ body.dark-mode {
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Fallback for browsers without backdrop-filter support */
+@supports not (backdrop-filter: blur(10px)) {
+    .feature-card,
+    .nav-link,
+    .back-btn,
+    .stat-card-large,
+    .stat-card,
+    .question-section,
+    .option-card,
+    .btn-secondary {
+        background: rgba(103, 126, 234, 0.85);
+    }
+}
+
 .feature-card:hover {
     transform: translateY(-10px);
     box-shadow: var(--glass-shadow-hover);

@@ -26,6 +26,13 @@
     z-index: 100;
 }
 
+/* Fallback for browsers without backdrop-filter support */
+@supports not (backdrop-filter: blur(10px)) {
+    .quiz-header {
+        background: rgba(103, 126, 234, 0.95);
+    }
+}
+
 .home-btn {
     background: rgba(255, 255, 255, 0.2);
     border: 1px solid var(--glass-border);

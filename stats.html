@@ -91,10 +91,11 @@
             if (confirm('Are you sure you want to reset all progress? This cannot be undone.')) {
                 const storage = new ProgressManager();
                 storage.resetProgress();
+                // Show toast and reload after user can see it
                 if (window.showToast) {
                     showToast('Progress has been reset successfully!', 'success');
                 }
-                setTimeout(() => location.reload(), 500);
+                setTimeout(() => location.reload(), 3500);
             }
         }
 
