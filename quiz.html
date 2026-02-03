@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practice Quiz - Coast Guard Exam</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/quiz.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <div class="quiz-container">
+        <!-- Top Navigation -->
+        <div class="quiz-header">
+            <button class="home-btn" onclick="goHome()" title="回到首頁">
+                <span class="home-icon">🏠</span>
+            </button>
+            <div class="question-counter">
+                Question <span id="currentQuestion">1</span> of <span id="totalQuestions">119</span>
+            </div>
+            <div class="progress-section">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressBar"></div>
+                </div>
+                <div class="progress-percentage" id="progressPercentage">0%</div>
+            </div>
+        </div>
+
+        <!-- Question Content -->
+        <div class="question-section">
+            <div class="question-text" id="questionText">
+                Loading question...
+            </div>
+        </div>
+
+        <!-- Options -->
+        <div class="options-section" id="optionsSection">
+            <!-- Options will be dynamically inserted here -->
+        </div>
+
+        <!-- Next Button -->
+        <div class="button-section">
+            <button class="btn-next" id="nextBtn" onclick="nextQuestion()" disabled>
+                Next Question →
+            </button>
+        </div>
+    </div>
+
+    <script src="js/storage.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/quiz.js"></script>
+</body>
+</html>

@@ -3,218 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>題庫管理系統 - 幫助你考高分</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Coast Guard Exam Preparation - 海巡署測驗題庫</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>📚 題庫管理系統</h1>
-            <p class="subtitle">幫助你考高分！</p>
+        <header class="hero">
+            <div class="hero-icon">⚓</div>
+            <h1>Coast Guard Exam Preparation</h1>
+            <p class="subtitle">海巡署測驗題庫</p>
+            <p class="description">Master the official question bank. Practice with real questions, track your progress, and boost your confidence.</p>
         </header>
 
-        <!-- 統計資訊 -->
-        <div class="stats-section">
-            <div class="stat-card">
-                <div class="stat-number" id="totalQuestions">0</div>
-                <div class="stat-label">總題數</div>
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">📖</div>
+                <h3>Official Questions</h3>
+                <p>Comprehensive database of authentic exam questions</p>
             </div>
-            <div class="stat-card">
-                <div class="stat-number" id="subjectCount">0</div>
-                <div class="stat-label">科目數</div>
+            <div class="feature-card">
+                <div class="feature-icon">🏆</div>
+                <h3>Instant Feedback</h3>
+                <p>Learn immediately from correct and incorrect answers</p>
             </div>
-            <div class="stat-card">
-                <div class="stat-number" id="practiceCount">0</div>
-                <div class="stat-label">練習次數</div>
-            </div>
-        </div>
-
-        <!-- 主要操作按鈕 -->
-        <div class="main-actions">
-            <button class="btn btn-primary" onclick="showAddQuestionForm()">➕ 新增題目</button>
-            <button class="btn btn-success" onclick="showPracticeMode()">✏️ 開始練習</button>
-            <button class="btn btn-info" onclick="exportQuestions()">💾 匯出題庫</button>
-            <button class="btn btn-warning" onclick="document.getElementById('importFile').click()">📁 匯入題庫</button>
-            <input type="file" id="importFile" accept=".json" style="display: none;" onchange="importQuestions(event)">
-        </div>
-
-        <!-- 搜尋與篩選 -->
-        <div class="search-filter-section">
-            <div class="search-box">
-                <input type="text" id="searchInput" placeholder="🔍 搜尋題目..." onkeyup="filterAndRender()">
-            </div>
-            <div class="filter-box">
-                <select id="subjectFilter" onchange="filterAndRender()">
-                    <option value="">所有科目</option>
-                    <option value="國文">國文</option>
-                    <option value="英文">英文</option>
-                    <option value="數學">數學</option>
-                    <option value="社會">社會</option>
-                    <option value="自然">自然</option>
-                    <option value="其他">其他</option>
-                </select>
-                <select id="difficultyFilter" onchange="filterAndRender()">
-                    <option value="">所有難度</option>
-                    <option value="簡單">簡單</option>
-                    <option value="中等">中等</option>
-                    <option value="困難">困難</option>
-                </select>
-                <select id="typeFilter" onchange="filterAndRender()">
-                    <option value="">所有題型</option>
-                    <option value="single">單選題</option>
-                    <option value="multiple">多選題</option>
-                    <option value="truefalse">是非題</option>
-                </select>
+            <div class="feature-card">
+                <div class="feature-icon">🛡️</div>
+                <h3>Exam Readiness</h3>
+                <p>Simulate the real exam environment</p>
             </div>
         </div>
 
-        <!-- 新增/編輯題目表單 (預設隱藏) -->
-        <div id="questionFormModal" class="modal">
-            <div class="modal-content">
-                <span class="close" onclick="closeQuestionForm()">&times;</span>
-                <h2 id="formTitle">新增題目</h2>
-                <form id="questionForm">
-                    <input type="hidden" id="questionId">
-                    
-                    <div class="form-group">
-                        <label for="questionText">題目內容 *</label>
-                        <textarea id="questionText" required rows="3"></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="questionType">題目類型 *</label>
-                        <select id="questionType" required onchange="updateOptionsDisplay()">
-                            <option value="single">單選題</option>
-                            <option value="multiple">多選題</option>
-                            <option value="truefalse">是非題</option>
-                        </select>
-                    </div>
-
-                    <div id="optionsSection">
-                        <div class="form-group">
-                            <label>選項 (勾選正確答案)</label>
-                            <div class="option-input">
-                                <input type="text" id="optionA" placeholder="選項 A">
-                                <input type="radio" name="correctAnswer" id="correctA" title="正確答案">
-                            </div>
-                            <div class="option-input">
-                                <input type="text" id="optionB" placeholder="選項 B">
-                                <input type="radio" name="correctAnswer" id="correctB" title="正確答案">
-                            </div>
-                            <div class="option-input">
-                                <input type="text" id="optionC" placeholder="選項 C">
-                                <input type="radio" name="correctAnswer" id="correctC" title="正確答案">
-                            </div>
-                            <div class="option-input">
-                                <input type="text" id="optionD" placeholder="選項 D">
-                                <input type="radio" name="correctAnswer" id="correctD" title="正確答案">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="subject">科目 *</label>
-                        <select id="subject" required>
-                            <option value="國文">國文</option>
-                            <option value="英文">英文</option>
-                            <option value="數學">數學</option>
-                            <option value="社會">社會</option>
-                            <option value="自然">自然</option>
-                            <option value="其他">其他</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="difficulty">難度 *</label>
-                        <select id="difficulty" required>
-                            <option value="簡單">簡單</option>
-                            <option value="中等">中等</option>
-                            <option value="困難">困難</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="explanation">解析說明</label>
-                        <textarea id="explanation" rows="2"></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="tags">標籤 (用逗號分隔)</label>
-                        <input type="text" id="tags" placeholder="例如: 歷史, 明朝, 重要">
-                    </div>
-
-                    <div class="form-actions">
-                        <button type="submit" class="btn btn-primary">儲存題目</button>
-                        <button type="button" class="btn btn-secondary" onclick="closeQuestionForm()">取消</button>
-                    </div>
-                </form>
-            </div>
+        <div class="start-section">
+            <button class="btn-start" onclick="startQuiz()">
+                Start Practice Quiz
+            </button>
+            <p class="question-count">119 Questions</p>
         </div>
 
-        <!-- 練習模式 (預設隱藏) -->
-        <div id="practiceModeModal" class="modal">
-            <div class="modal-content">
-                <span class="close" onclick="closePracticeMode()">&times;</span>
-                <h2>練習模式</h2>
-                
-                <div id="practiceSetup">
-                    <div class="form-group">
-                        <label for="practiceCount">題目數量</label>
-                        <input type="number" id="practiceCount" min="1" max="50" value="10">
-                    </div>
-                    <div class="form-group">
-                        <label for="practiceSubject">科目</label>
-                        <select id="practiceSubject">
-                            <option value="">全部</option>
-                            <option value="國文">國文</option>
-                            <option value="英文">英文</option>
-                            <option value="數學">數學</option>
-                            <option value="社會">社會</option>
-                            <option value="自然">自然</option>
-                            <option value="其他">其他</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="practiceDifficulty">難度</label>
-                        <select id="practiceDifficulty">
-                            <option value="">全部</option>
-                            <option value="簡單">簡單</option>
-                            <option value="中等">中等</option>
-                            <option value="困難">困難</option>
-                        </select>
-                    </div>
-                    <button class="btn btn-primary" onclick="startPractice()">開始練習</button>
-                </div>
-
-                <div id="practiceQuestions" style="display: none;">
-                    <div id="practiceProgress"></div>
-                    <div id="currentQuestion"></div>
-                    <div id="practiceNavigation">
-                        <button class="btn btn-secondary" onclick="previousQuestion()">上一題</button>
-                        <button class="btn btn-primary" onclick="nextQuestion()">下一題</button>
-                        <button class="btn btn-success" onclick="finishPractice()">完成練習</button>
-                    </div>
-                </div>
-
-                <div id="practiceResults" style="display: none;">
-                    <h3>練習結果</h3>
-                    <div id="resultsContent"></div>
-                    <button class="btn btn-primary" onclick="closePracticeMode()">關閉</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- 題目列表 -->
-        <div class="questions-section">
-            <h2>題目列表</h2>
-            <div id="questionsList"></div>
-            <div id="noQuestions" style="display: none; text-align: center; padding: 40px; color: #999;">
-                <p style="font-size: 48px;">📝</p>
-                <p>還沒有題目，點擊上方「新增題目」按鈕開始建立題庫！</p>
-            </div>
+        <div class="navigation-links">
+            <a href="stats.html" class="nav-link">📊 View Statistics</a>
+            <a href="mistakes.html" class="nav-link">❌ Review Mistakes</a>
         </div>
     </div>
 
-    <script src="app.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>

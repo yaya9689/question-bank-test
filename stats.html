@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistics - Coast Guard Exam</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <div class="container">
+        <header class="page-header">
+            <button class="back-btn" onclick="goHome()">← Back to Home</button>
+            <h1>📊 Your Statistics</h1>
+        </header>
+
+        <div class="stats-container">
+            <div class="stat-card-large">
+                <div class="stat-title">Progress</div>
+                <div class="stat-value" id="completedCount">0</div>
+                <div class="stat-label">of <span id="totalCount">119</span> questions completed</div>
+                <div class="progress-bar-large">
+                    <div class="progress-fill-large" id="progressFillLarge"></div>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">✓</div>
+                    <div class="stat-value" id="correctCount">0</div>
+                    <div class="stat-label">Correct Answers</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">✗</div>
+                    <div class="stat-value" id="incorrectCount">0</div>
+                    <div class="stat-label">Incorrect Answers</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">📈</div>
+                    <div class="stat-value" id="accuracyRate">0%</div>
+                    <div class="stat-label">Accuracy Rate</div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn btn-primary" onclick="continueQuiz()">Continue Practice</button>
+                <button class="btn btn-secondary" onclick="resetProgress()">Reset Progress</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/storage.js"></script>
+    <script src="js/utils.js"></script>
+    <script>
+        // Load statistics on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const storage = new ProgressManager();
+            const stats = storage.getStatistics();
+            
+            document.getElementById('completedCount').textContent = stats.completed;
+            document.getElementById('totalCount').textContent = stats.total;
+            document.getElementById('correctCount').textContent = stats.correct;
+            document.getElementById('incorrectCount').textContent = stats.incorrect;
+            document.getElementById('accuracyRate').textContent = stats.accuracy + '%';
+            
+            const progressPercent = (stats.completed / stats.total * 100).toFixed(1);
+            document.getElementById('progressFillLarge').style.width = progressPercent + '%';
+        });
+
+        function continueQuiz() {
+            window.location.href = 'quiz.html';
+        }
+
+        function resetProgress() {
+            if (confirm('Are you sure you want to reset all progress? This cannot be undone.')) {
+                const storage = new ProgressManager();
+                storage.resetProgress();
+                location.reload();
+            }
+        }
+
+        function goHome() {
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
