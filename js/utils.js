@@ -169,8 +169,9 @@ async function loadQuestions() {
     'data/port-security.json',
     'data/national-security-law.json',
     'data/animal-plant-quarantine.json',
-    'data/commercial-port-security.json'  // ← 加這行
-  ];
+    'data/commercial-port-security.json',
+    'data/smuggling-punishment.json'  // ← 新增這行
+];
         
         let allQuestions = [];
         for (const file of files) {
