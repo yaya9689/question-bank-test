@@ -1,1 +1,222 @@
-[\n  {\n    "question": "What is the purpose of customs anti-smuggling regulations?",\n    "options": [\n      "To prevent illegal import/export activities",\n      "To increase government revenue",\n      "To ensure product safety",\n      "All of the above"\n    ],\n    "correctAnswer": "All of the above"\n  },\n  {\n    "question": "Which organization is typically responsible for enforcing customs regulations?",\n    "options": [\n      "Customs and Border Protection",\n      "Department of Commerce",\n      "Federal Trade Commission",\n      "Environmental Protection Agency"\n    ],\n    "correctAnswer": "Customs and Border Protection"\n  },\n  {\n    "question": "What can be a consequence of smuggling?",\n    "options": [\n      "Fines",\n      "Imprisonment",\n      "Confiscation of goods",\n      "All of the above"\n    ],\n    "correctAnswer": "All of the above"\n  },\n  {\n    "question": "What are anti-smuggling measures designed to do?",\n    "options": [\n      "Prevent contraband from entering a country",\n      "Control the movement of goods across borders",\n      "Deter potential smugglers",\n      "All of the above"\n    ],\n    "correctAnswer": "All of the above"\n  },\n  {\n    "question": "Is it legal to transport merchandise without declaring it to customs?",\n    "options": [\n      "Yes, if under a certain value",\n      "Yes, if it is personal property",\n      "No, all merchandise must be declared",\n      "Only for commercial goods"\n    ],\n    "correctAnswer": "No, all merchandise must be declared"\n  },\n  {\n    "question": "What is a common tactic used by smugglers?",\n    "options": [\n      "Concealment of goods",\n      "Mislabeling shipments",\n      "Using false documentation",\n      "All of the above"\n    ],\n    "correctAnswer": "All of the above"\n  },\n  {\n    "question": "What happens to goods that are seized by customs?",\n    "options": [\n      "They can be returned to the owner",\n      "They may be destroyed",\n      "They can be sold at auction",\n      "All of the above"\n    ],\n    "correctAnswer": "All of the above"\n  },\n  {\n    "question": "Why might someone attempt to smuggle goods?",\n    "options": [\n      "To avoid taxes",\n      "To obtain restricted products",\n      "To profit from illegal sales",\n      "All of the above"\n    ],\n    "correctAnswer": "All of the above"\n  },\n  {\n    "question": "What is a common item that is smuggled?",\n    "options": [\n      "Drugs",\n      "Weapons",\n      "Counterfeit products",\n      "All of the above"\n    ],\n    "correctAnswer": "All of the above"\n  },\n  {\n    "question": "How can customs detect smuggling attempts?",\n    "options": [\n      "Using X-ray technology",\n      "Conducting inspections",\n      "Monitoring financial transactions",\n      "All of the above"\n    ],\n    "correctAnswer": "All of the above"\n  },\n  {\n    "question": "What role does technology play in anti-smuggling operations?",\n    "options": [\n      "Enhancing detection methods",\n      "Streamlining customs processes",\n      "Collecting data on smuggling patterns",\n      "All of the above"\n    ],\n    "correctAnswer": "All of the above"\n  },\n  {\n    "question": "What is the role of international cooperation in anti-smuggling?",\n    "options": [\n      "Sharing intelligence",\n      "Joint operations between countries",\n      "Establishing standardized procedures",\n      "All of the above"\n    ],\n    "correctAnswer": "All of the above"\n  },\n  {\n    "question": "Can individuals be prosecuted for attempting to smuggle?",\n    "options": [\n      "No, only businesses can be prosecuted",\n      "Yes, individuals can face criminal charges",\n      "Only if they are caught multiple times",\n      "No, it's not illegal for individuals"\n    ],\n    "correctAnswer": "Yes, individuals can face criminal charges"\n  },\n  {\n    "question": "What should you do if you suspect someone is smuggling?",\n    "options": [\n      "Report it to customs authorities",\n      "Confront the smuggler yourself",\n      "Ignore it if it doesn't affect you",\n      "Tell your friends about it"\n    ],\n    "correctAnswer": "Report it to customs authorities"\n  },\n  {\n    "question": "How do penalties for smuggling vary?",\n    "options": [\n      "By the value of the goods",\n      "By the type of goods",\n      "Based on the offender's history",\n      "All of the above"\n    ],\n    "correctAnswer": "All of the above"\n  },\n  {\n    "question": "What resources are available for understanding customs regulations?",\n    "options": [\n      "Customs websites",\n      "Legal advisors",\n      "Industry publications",\n      "All of the above"\n    ],\n    "correctAnswer": "All of the above"\n  }\n]
+［
+{
+    "id": 16,
+    "question": "私運貨物進出口的查緝，由哪一個機關依本條例的規定為的？",
+    "options": {
+      "A": "海關",
+      "B": "海巡署",
+      "C": "外交部",
+      "D": "移民署"
+    },
+    "correctAnswer": "A"
+  },
+  {
+    "id": 17,
+    "question": "通商口岸指的是下列哪一項？",
+    "options": {
+      "A": "經政府開放對外貿易，並設有海關的港口、機場或商埠",
+      "B": "指有使應納關稅減少或免除的不法行為",
+      "C": "沿海二十四海里以內的水域",
+      "D": "由國防部會同海岸巡防機關，就台灣地區海岸範圍內劃定公告的地區"
+    },
+    "correctAnswer": "A"
+  },
+  {
+    "id": 18,
+    "question": "私運貨物進口、出口的定義何者為非？",
+    "options": {
+      "A": "規避檢查",
+      "B": "偷漏關稅",
+      "C": "向海關申報",
+      "D": "逃避管制"
+    },
+    "correctAnswer": "C"
+  },
+  {
+    "id": 19,
+    "question": "下列何者非海關緝私條例的主要目的？",
+    "options": {
+      "A": "對私運、漏稅等不法情事實施整體規範",
+      "B": "大多規範走私事件",
+      "C": "對象為不守海關秩序者",
+      "D": "規範非法入出國"
+    },
+    "correctAnswer": "D"
+  },
+  {
+    "id": 20,
+    "question": "下列何者非「規避檢查」的意義？",
+    "options": {
+      "A": "運輸貨物進、出國境。",
+      "B": "藏匿未報關查驗的貨物",
+      "C": "於其他已報關查驗的貨物中，企圖魚目混珠。",
+      "D": "挾帶、掉包"
+    },
+    "correctAnswer": "A"
+  },
+  {
+    "id": 21,
+    "question": "下列何者為偷漏關稅的意義？",
+    "options": {
+      "A": "船舶清倉廢品，經報關查驗照章完稅者",
+      "B": "申報的貨物與實際進口貨物相符",
+      "C": "指有使應納關稅減少或免除的不法行為",
+      "D": "將未報關查驗的貨物藏匿於其他已報關查驗的貨物中"
+    },
+    "correctAnswer": "C"
+  },
+  {
+    "id": 22,
+    "question": "下列何者為逃避管制的意義？",
+    "options": {
+      "A": "指進口或出口依規定不得進口或出口或管制輪出入的物品",
+      "B": "短報進口貨物數量",
+      "C": "高稅額貨物申報為低稅額貨物",
+      "D": "逃避檢查人員檢查的行為"
+    },
+    "correctAnswer": "A"
+  },
+  {
+    "id": 23,
+    "question": "有下列哪一種情形，海關均應將其違反規定情事函知有關機關，俾各該機關可依其主管法令規定處理？",
+    "options": {
+      "A": "申報的貨物與實際進口貨物相符。",
+      "B": "廠商報運貨物進出口而有違反輸出入規定",
+      "C": "無短報進口貨物數量。",
+      "D": "無高稅額貨物申報為低稅額貨物"
+    },
+    "correctAnswer": "B"
+  },
+  {
+    "id": 24,
+    "question": "下列何者非關稅法第15條不得進口的物品？",
+    "options": {
+      "A": "偽造或變造的貨幣",
+      "B": "侵害專利權的物品",
+      "C": "印製偽幣印模",
+      "D": "侵害隱私權的物品"
+    },
+    "correctAnswer": "D"
+  },
+  {
+    "id": 25,
+    "question": "有關報運貨物進口、出口的敘述，何者為非？",
+    "options": {
+      "A": "依關稅法及有關法令規定",
+      "B": "使應納關稅減少或免除的不法行為",
+      "C": "向海關申報貨物",
+      "D": "經由通商口岸進口或出口"
+    },
+    "correctAnswer": "B"
+  },
+  {
+    "id": 26,
+    "question": "關稅法第16條進口貨物的敘述，何者為非？",
+    "options": {
+      "A": "自裝載貨物的運輸工具進口第十五日內",
+      "B": "向海關申報貨物",
+      "C": "經由海關查驗、估價",
+      "D": "經由法定的查驗、納稅等程序"
+    },
+    "correctAnswer": "C"
+  },
+  {
+    "id": 27,
+    "question": "下列何者是「出口貨物報關驗放辦法」有關出口貨物的意義？",
+    "options": {
+      "A": "指經濟部依有關貿易法規管制輪出的物品",
+      "B": "貨物須經由海關查驗、估價等程序，始得放行裝運出口",
+      "C": "指臺灣地區與大陸地區貿易許可辦法第7條規定不得輸入的大陸物品",
+      "D": "指行政院公告的「管制物品項目及其數額」"
+    },
+    "correctAnswer": "B"
+  },
+  {
+    "id": 28,
+    "question": "有關「完稅價格」的意義，為下列何者？",
+    "options": {
+      "A": "指海關根據有關規定進行審定的價格",
+      "B": "估定後無須經通過估價確定的價格",
+      "C": "不是征收關稅的依據",
+      "D": "非指發票上表明的成交價格"
+    },
+    "correctAnswer": "A"
+  },
+  {
+    "id": 29,
+    "question": "輸入商品到達我國口岸的商品價格，其包括有海空運費及保費，指的是哪一種價格？",
+    "options": {
+      "A": "完稅價格",
+      "B": "海上保險費用。",
+      "C": "應付的價格。",
+      "D": "起岸價格"
+    },
+    "correctAnswer": "D"
+  },
+  {
+    "id": 30,
+    "question": "有關海關緝私區域的敘述，何者為非？",
+    "options": {
+      "A": "中華民國通商口岸",
+      "B": "沿海二十四海里以內的水域",
+      "C": "公海",
+      "D": "依海關緝私條例得為查緝的區域或場所"
+    },
+    "correctAnswer": "C"
+  },
+  {
+    "id": 31,
+    "question": "海關因緝私需要，得配置必要的器械，何者為非？",
+    "options": {
+      "A": "艦艇",
+      "B": "土製手槍",
+      "C": "航空器",
+      "D": "武器、彈藥"
+    },
+    "correctAnswer": "B"
+  },
+  {
+    "id": 32,
+    "question": "海關檢查權行使的敘述，何者為非？",
+    "options": {
+      "A": "得對進出口貨物檢查",
+      "B": "得對通運貨物檢查",
+      "C": "不得對郵包檢查",
+      "D": "得對行李、運輸工具檢查"
+    },
+    "correctAnswer": "C"
+  },
+  {
+    "id": 33,
+    "question": "有關勘驗的意義，指下列何者？",
+    "options": {
+      "A": "因緝私必要，得對於進出口貨物實施檢查",
+      "B": "得命船舶、航空器、車輛或其他運輸工具停駛",
+      "C": "對人、關係場所及運輸工具的搜索",
+      "D": "海關關員直接以其五官的作用，查察現場狀況，所為的強制處分"
+    },
+    "correctAnswer": "D"
+  },
+  {
+    "id": 34,
+    "question": "有關必要的器械的種類，有下列何者？(1)手銬 (2)捕繩 (3)防彈背心 (4)導航裝置",
+    "options": {
+      "A": "(1)(2)(3)",
+      "B": "(2)(3)(4)",
+      "C": "(3)(4)",
+      "D": "(1)(2)"
+    },
+    "correctAnswer": "A"
+  },
+  {
+    "id": 35,
+    "question": "下列哪些為海關武器及彈藥使用情形？(1)保護自己或他人 (2)緝私艦艇、航空器或車輛遭受危害時 (3)進出海岸管制區 (4)遇抗拒檢查、勘驗、搜索時",
+    "options": {
+      "A": "(2)(3)",
+      "B": "(1)(2)(3)",
+      "C": "(1)(2)(4)",
+      "D": "(3)(4)"
+    },
+    "correctAnswer": "C"
+  }
+]
