@@ -170,7 +170,8 @@ async function loadQuestions() {
     'data/national-security-law.json',
     'data/animal-plant-quarantine.json',
     'data/commercial-port-security.json',
-    'data/smuggling-punishment.json'  
+    'data/smuggling-punishment.json',
+    'data/marine-oil-pollution-response.json'  
 ];
         
         let allQuestions = [];
