@@ -11,7 +11,7 @@ let questions = [];
 async function loadQuestions() {
     for (const fileName of fileNames) {
         const response = await fetch(`data/${fileName}`);
-        questions = questions.concat(data);
+        const data = await response.json();
         questions = questions.concat(data);
     }
     return questions;
