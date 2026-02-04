@@ -168,8 +168,9 @@ async function loadQuestions() {
     'data/customs-anti-smuggling.json',
     'data/port-security.json',
     'data/national-security-law.json',
-    'data/animal-plant-quarantine.json'
-   ];
+    'data/animal-plant-quarantine.json',
+    'data/commercial-port-security.json'  // ← 加這行
+  ];
         
         let allQuestions = [];
         for (const file of files) {
