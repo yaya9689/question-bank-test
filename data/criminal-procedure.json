@@ -1,0 +1,17 @@
+[  
+    { "question": "What is the burden of proof in a criminal case?", "answer": "The burden of proof in a criminal case is "beyond a reasonable doubt."" },  
+    { "question": "What is a plea bargain?", "answer": "A plea bargain is an agreement in a criminal case where the defendant pleads guilty to a lesser charge in exchange for a lighter sentence or the dropping of other charges." },  
+    { "question": "What rights does the Fifth Amendment protect?", "answer": "The Fifth Amendment protects against self-incrimination, double jeopardy, and ensures due process of law." },  
+    { "question": "What is the exclusionary rule?", "answer": "The exclusionary rule prohibits the use of illegally obtained evidence in a criminal trial if it violates the defendant's constitutional rights." },  
+    { "question": "What are the Miranda rights?", "answer": "The Miranda rights are warnings given to a criminal suspect in custody, informing them of their right to remain silent and to an attorney." },  
+    { "question": "What is a Grand Jury?", "answer": "A Grand Jury is a panel of citizens that reviews evidence to determine whether there is enough evidence to charge someone with a crime." },  
+    { "question": "What is double jeopardy?", "answer": "Double jeopardy is the legal principle that a person cannot be tried twice for the same crime." },  
+    { "question": "What is a preliminary hearing?", "answer": "A preliminary hearing is a court proceeding to determine whether there is enough evidence to proceed to trial." },  
+    { "question": "What is the role of a defense attorney?", "answer": "The role of a defense attorney is to represent the accused and protect their rights throughout the criminal process." },  
+    { "question": "What is a search warrant?", "answer": "A search warrant is a legal document authorizing law enforcement to search a specified location for evidence of a crime." },  
+    { "question": "What is probable cause?", "answer": "Probable cause is the standard of evidence that law enforcement must meet to make an arrest or obtain a search warrant." },  
+    { "question": "What is sentencing?", "answer": "Sentencing is the phase in a criminal case where the judge determines the appropriate punishment for the convicted offender." },  
+    { "question": "What is parole?", "answer": "Parole is the conditional release of a prisoner before the completion of their sentence, allowing them to reintegrate into society under supervision." },  
+    { "question": "What is a felony?", "answer": "A felony is a serious crime, typically punishable by imprisonment for more than one year or death." },  
+    { "question": "What are the elements of a crime?", "answer": "The elements of a crime typically include actus reus (the act), mens rea (the intent), and causation." }  
+]
