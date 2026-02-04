@@ -1,9 +1,28 @@
-// Updated loadQuestions function
+// Load multiple JSON files from the data folder
 
-function loadQuestions() {
-    // Existing code...
-    questions = questions.concat(data);
-    // Existing code...
+const fileNames = [
+    'criminal-procedure.json',
+    'customs-anti-smuggling.json',
+    'port-security.json'
+];
+
+let questions = [];
+
+async function loadQuestions() {
+    for (const fileName of fileNames) {
+        const response = await fetch(`data/${fileName}`);
+        const data = await response.json();
+        questions = questions.concat(data);
+    }
+    return questions;
 }
 
-export { loadQuestions };
+// Make loadQuestions available globally
+if (typeof window !== 'undefined') {
+    window.loadQuestions = loadQuestions;
+}
+
+// Export for module usage
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = { loadQuestions };
+}
