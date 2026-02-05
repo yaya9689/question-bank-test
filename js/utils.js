@@ -170,7 +170,7 @@ async function loadQuestions() {
             'data/coast-guard-duties.json',
             'data/marine-pollution-response.json',
             'data/maritime-rescue-operations.json',
-            'data/smuggling-punishment.jso',
+            'data/coastal-patrol-regulations.json',
             'data/marine-oil-pollution-response.jso',
             'data/maritime-rescue-operations.jso',
             'data/territorial-waters-eez.jso',
