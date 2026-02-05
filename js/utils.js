@@ -169,12 +169,12 @@ async function loadQuestions() {
             'data/commercial-port-security.json',
             'data/coast-guard-duties.json',
             'data/marine-pollution-response.json',
-            'data/commercial-port-security.json',
-            'data/smuggling-punishment.json',
-            'data/marine-oil-pollution-response.json',
             'data/maritime-rescue-operations.json',
-            'data/territorial-waters-eez.json',
-            'data/coastal-patrol-duties.json'
+            'data/smuggling-punishment.jso',
+            'data/marine-oil-pollution-response.jso',
+            'data/maritime-rescue-operations.jso',
+            'data/territorial-waters-eez.jso',
+            'data/coastal-patrol-duties.jso'
         ];
         
         let allQuestions = [];
