@@ -174,7 +174,8 @@ async function loadQuestions() {
     'data/marine-oil-pollution-response.json',
     'data/maritime-rescue-operations.json',
     'data/criminal-procedure-extended.json',
-    'data/territorial-waters-eez.json'
+    'data/territorial-waters-eez.json',
+    'data/coastal-patrol-duties.json'    
 ];
         
         let allQuestions = [];
