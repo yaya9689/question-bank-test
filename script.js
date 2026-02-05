@@ -4,9 +4,9 @@ const fileNames = [
     'criminal-procedure.json',              // 刑事訴訟法 (20題)
     'port-security.json',                   // 漁港及遊艇港安全檢查 (20題)
     'commercial-port-security.json',        // 商港安全檢查 (20題)
-    'coast-guard-duties.json',              // 海巡勤務 (30題)
-    'marine-pollution-response.json',       // 海洋污染應變 (15題)
-    'maritime-rescue-operations.json',      // 海上救難作業 (16題)
+    'coast-guard-duties.json',              // 海巡勤務 (30題) ✅ 修正
+    'marine-pollution-response.json',       // 海洋污染應變 (15題) ✅ 修正
+    'maritime-rescue-operations.json',      // 海上救難作業 (16題) ✅ 新增
     'coastal-patrol-regulations.json',      // 海岸巡防勤務實施要點 (25題)
     'territorial-waters-eez.json',          // 領海及專屬經濟海域法 (19題)
     'customs-anti-smuggling.json',          // 海關緝私條例 (20題)
@@ -18,7 +18,7 @@ const fileNames = [
 let questions = [];
 
 async function loadQuestions() {
-    questions = []; // 🔧 清空舊資料，避免重複載入
+    questions = []; // 清空舊資料
     
     for (const fileName of fileNames) {
         try {
@@ -35,7 +35,7 @@ async function loadQuestions() {
         }
     }
     
-    console.log(`🎯 成功載入 ${questions.length} 題`);
+    console.log(`🎯 Total questions loaded: ${questions.length}`);
     return questions;
 }
 
