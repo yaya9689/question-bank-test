@@ -167,7 +167,7 @@ async function loadQuestions() {
             'data/criminal-procedure.json',
             'data/port-security.json',
             'data/commercial-port-security.json',
-            'data/national-security-law.json',
+            'data/coast-guard-duties.json',
             'data/animal-plant-quarantine.json',
             'data/commercial-port-security.json',
             'data/smuggling-punishment.json',
