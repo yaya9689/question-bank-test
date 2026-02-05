@@ -2,17 +2,31 @@
 
 const fileNames = [
     'criminal-procedure.json',
-    'customs-anti-smuggling.json',
-    'port-security.json'
+    'commercial-port-security.json',
+    'coastal-patrol-duties.json',
+    'coastal-patrol-regulations.json',
+    'marine-oil-pollution-response.json',
+    'national-security-law.json',
+    'port-security.json',
+    'smuggling-punishment.json',
+    'territorial-waters-eez.json'
 ];
 
 let questions = [];
 
 async function loadQuestions() {
     for (const fileName of fileNames) {
-        const response = await fetch(`data/${fileName}`);
-        const data = await response.json();
-        questions = questions.concat(data);
+        try {
+            const response = await fetch(`data/${fileName}`);
+            if (!response.ok) {
+                console.error(`Failed to load ${fileName}: ${response.status}`);
+                continue;
+            }
+            const data = await response.json();
+            questions = questions.concat(data);
+        } catch (error) {
+            console.error(`Error loading ${fileName}:`, error);
+        }
     }
     return questions;
 }
