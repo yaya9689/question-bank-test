@@ -174,7 +174,8 @@ async function loadQuestions() {
             'data/territorial-waters-eez.json',
             'data/customs-anti-smuggling.json',
             'data/animal-plant-quarantine.json',
-            'data/national-security-law.json'
+            'data/national-security-law.json',
+            'data/smuggling-punishment.json'
         ];
         
         let allQuestions = [];
