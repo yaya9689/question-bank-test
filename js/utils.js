@@ -173,7 +173,7 @@ async function loadQuestions() {
             'data/coastal-patrol-regulations.json',
             'data/territorial-waters-eez.json',
             'data/customs-anti-smuggling.json',
-            'data/territorial-waters-eez.jso',
+            'data/animal-plant-quarantine.json',
             'data/coastal-patrol-duties.jso'
         ];
         
