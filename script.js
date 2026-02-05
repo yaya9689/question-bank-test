@@ -18,20 +18,24 @@ const fileNames = [
 let questions = [];
 
 async function loadQuestions() {
+    questions = []; // 🔧 清空舊資料，避免重複載入
+    
     for (const fileName of fileNames) {
         try {
             const response = await fetch(`data/${fileName}`);
             if (!response.ok) {
-                console.error(`Failed to load ${fileName}: ${response.status}`);
+                console.error(`❌ Failed to load ${fileName}: ${response.status}`);
                 continue;
             }
             const data = await response.json();
             questions = questions.concat(data);
+            console.log(`✅ Loaded ${fileName}: ${data.length} questions`);
         } catch (error) {
-            console.error(`Error loading ${fileName}:`, error);
+            console.error(`❌ Error loading ${fileName}:`, error);
         }
     }
-    console.log(`✅ 成功載入 ${questions.length} 題`);
+    
+    console.log(`🎯 成功載入 ${questions.length} 題`);
     return questions;
 }
 
