@@ -166,7 +166,7 @@ async function loadQuestions() {
         const files = [
             'data/criminal-procedure.json',
             'data/port-security.json',
-            'data/port-security.json',
+            'data/commercial-port-security.json',
             'data/national-security-law.json',
             'data/animal-plant-quarantine.json',
             'data/commercial-port-security.json',
