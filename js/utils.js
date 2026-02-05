@@ -173,7 +173,6 @@ async function loadQuestions() {
     'data/smuggling-punishment.json',
     'data/marine-oil-pollution-response.json',
     'data/maritime-rescue-operations.json',
-    'data/criminal-procedure-extended.json',
     'data/territorial-waters-eez.json',
     'data/coastal-patrol-duties.json', 
     'data/coastal-patrol-regulations.json'
