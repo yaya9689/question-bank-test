@@ -172,7 +172,8 @@ async function loadQuestions() {
     'data/commercial-port-security.json',
     'data/smuggling-punishment.json',
     'data/marine-oil-pollution-response.json',
-    'data/maritime-rescue-operations.json'  
+    'data/maritime-rescue-operations.json',
+    'data/criminal-procedure-extended.json'   
 ];
         
         let allQuestions = [];
