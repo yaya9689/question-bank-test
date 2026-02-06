@@ -15,12 +15,23 @@ class QuizManager {
      * Initialize quiz
      */
     async init() {
-        // Load questions
-        this.questions = await loadQuestions();
+        // Load all questions
+        const allQuestions = await loadQuestions();
         
-        if (this.questions.length === 0) {
+        if (allQuestions.length === 0) {
             this.showError('無法載入題目');
             return;
+        }
+
+        // Get question count from URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const count = parseInt(urlParams.get('count')) || 254;
+
+        // Randomly select questions if count is less than total
+        if (count < allQuestions.length) {
+            this.questions = this.shuffleArray([...allQuestions]).slice(0, count);
+        } else {
+            this.questions = allQuestions;
         }
 
         // Load saved progress
@@ -28,6 +39,18 @@ class QuizManager {
 
         // Render first/current question
         this.renderQuestion();
+    }
+
+    /**
+     * Shuffle array using Fisher-Yates algorithm
+     */
+    shuffleArray(array) {
+        const shuffled = [...array];
+        for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        return shuffled;
     }
 
     /**
