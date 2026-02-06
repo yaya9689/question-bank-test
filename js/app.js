@@ -3,8 +3,8 @@
  */
 
 // Start quiz function
-function startQuiz(random = false) {
-    window.location.href = random ? 'quiz.html?random=true' : 'quiz.html';
+function startQuiz(count = 254) {
+    window.location.href = `quiz.html?count=${count}`;
 }
 
 // Initialize homepage
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const questionCountEl = document.querySelector('.question-count');
     if (questionCountEl && stats.completed > 0) {
         questionCountEl.innerHTML = `
-            254 道題目 <span style="color: var(--success-color);">(已完成 ${stats.completed} 題)</span>
+            共 254 道題目 <span style="color: var(--success-color);">(已完成 ${stats.completed} 題)</span>
         `;
     }
 
