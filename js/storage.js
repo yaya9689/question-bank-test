@@ -118,7 +118,7 @@ class ProgressManager {
         const progress = this.loadProgress();
         if (!progress) {
             return {
-                total: 119,
+                total: 254,  // ✅ 修正：改為 254 題
                 completed: 0,
                 correct: 0,
                 incorrect: 0,
@@ -133,7 +133,7 @@ class ProgressManager {
         const accuracy = completed > 0 ? Math.round((correct / completed) * 100) : 0;
 
         return {
-            total: 119,
+            total: 254,  // ✅ 修正：改為 254 題
             completed,
             correct,
             incorrect,
