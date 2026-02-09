@@ -7,6 +7,131 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/animations.css">
     <link rel="stylesheet" href="css/responsive.css">
+    <style>
+        /* ✅ 錯題卡片樣式 */
+        .mistakes-container {
+            margin-top: 30px;
+        }
+
+        .mistakes-summary {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: var(--glass-shadow);
+        }
+
+        .mistakes-summary p {
+            color: var(--white);
+            font-size: 18px;
+            margin: 0;
+        }
+
+        .mistakes-summary strong {
+            color: var(--error-color);
+            font-size: 24px;
+        }
+
+        .no-mistakes {
+            color: var(--success-color) !important;
+            font-size: 20px !important;
+        }
+
+        .mistakes-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .mistake-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: var(--glass-shadow);
+            animation: fadeInUp 0.5s ease-out;
+            animation-fill-mode: both;
+        }
+
+        .mistake-question {
+            color: var(--white);
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .mistake-question strong {
+            color: var(--primary-color);
+        }
+
+        .mistake-answers {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .answer-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .answer-label {
+            font-weight: 600;
+            font-size: 14px;
+            min-width: 90px;
+        }
+
+        .answer-label.incorrect {
+            color: var(--error-color);
+        }
+
+        .answer-label.correct {
+            color: var(--success-color);
+        }
+
+        .answer-content {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 16px;
+            flex: 1;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Loading State */
+        .loading {
+            text-align: center;
+            color: var(--white);
+            font-size: 18px;
+            padding: 40px;
+        }
+
+        .loading::after {
+            content: '...';
+            animation: dots 1.5s infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60%, 100% { content: '...'; }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -17,7 +142,7 @@
 
         <div class="mistakes-container">
             <div class="mistakes-summary" id="mistakesSummary">
-                <p>載入錯題中...</p>
+                <p class="loading">載入錯題中</p>
             </div>
 
             <div class="mistakes-list" id="mistakesList">
@@ -49,16 +174,19 @@
 
             summaryEl.innerHTML = `<p>你有 <strong>${mistakes.length}</strong> 題答錯。請在下方複習：</p>`;
 
-            // Load questions
-            const response = await fetch('data/questions.json');
-            const allQuestions = await response.json();
+            // ✅ 使用 loadQuestions() 載入所有題目
+            const allQuestions = await loadQuestions();
+
+            if (!allQuestions || allQuestions.length === 0) {
+                summaryEl.innerHTML = '<p class="no-mistakes">⚠️ 無法載入題目，請重新整理頁面。</p>';
+                return;
+            }
 
             listEl.innerHTML = '';
             mistakes.forEach((mistakeId, index) => {
                 const question = allQuestions.find(q => q.id === mistakeId);
                 if (question) {
                     const mistakeCard = createMistakeCard(question, storage.getAnswer(mistakeId));
-                    mistakeCard.classList.add('animate-on-scroll');
                     mistakeCard.style.animationDelay = `${index * 0.1}s`;
                     listEl.appendChild(mistakeCard);
                 }
@@ -69,7 +197,6 @@
             const card = document.createElement('div');
             card.className = 'mistake-card';
             
-            const optionLabels = ['A', 'B', 'C', 'D'];
             const correctAnswerText = question.options[question.correctAnswer];
             const userAnswerText = userAnswer ? question.options[userAnswer] : '未作答';
 
@@ -80,110 +207,17 @@
                 <div class="mistake-answers">
                     <div class="answer-row">
                         <span class="answer-label incorrect">你的答案：</span>
-                        <span class="answer-text">${userAnswer}: ${userAnswerText}</span>
+                        <span class="answer-content">${userAnswer || '未作答'} - ${userAnswerText}</span>
                     </div>
                     <div class="answer-row">
                         <span class="answer-label correct">正確答案：</span>
-                        <span class="answer-text">${question.correctAnswer}: ${correctAnswerText}</span>
+                        <span class="answer-content">${question.correctAnswer} - ${correctAnswerText}</span>
                     </div>
                 </div>
             `;
 
             return card;
         }
-
-        function goHome() {
-            window.location.href = 'index.html';
-        }
     </script>
-
-    <style>
-        .mistakes-summary {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            padding: 20px;
-            border-radius: 20px;
-            margin-bottom: 30px;
-            text-align: center;
-            color: rgba(255, 255, 255, 0.9);
-        }
-
-        .no-mistakes {
-            font-size: 18px;
-            color: var(--success-color);
-        }
-
-        .mistakes-list {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .mistake-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            border-left: 4px solid var(--error-color);
-            border-radius: 16px;
-            padding: 20px;
-            box-shadow: var(--glass-shadow);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            animation: slideInLeft 0.5s ease-out;
-            animation-fill-mode: both;
-        }
-
-        .mistake-card:hover {
-            transform: translateX(5px);
-            box-shadow: 0 8px 24px rgba(234, 67, 53, 0.2);
-        }
-
-        .mistake-question {
-            font-size: 16px;
-            line-height: 1.6;
-            margin-bottom: 15px;
-            color: rgba(255, 255, 255, 0.95);
-        }
-
-        .mistake-answers {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .answer-row {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-        }
-
-        .answer-label {
-            font-weight: bold;
-            min-width: 130px;
-            padding: 5px 10px;
-            border-radius: 6px;
-            font-size: 14px;
-        }
-
-        .answer-label.correct {
-            background: rgba(52, 168, 83, 0.2);
-            color: var(--success-light);
-            border: 1px solid var(--success-color);
-        }
-
-        .answer-label.incorrect {
-            background: rgba(234, 67, 53, 0.2);
-            color: var(--error-light);
-            border: 1px solid var(--error-color);
-        }
-
-        .answer-text {
-            flex: 1;
-            padding: 5px 0;
-            color: rgba(255, 255, 255, 0.8);
-        }
-    </style>
 </body>
 </html>
