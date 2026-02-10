@@ -44,7 +44,7 @@ class QuizManager {
             this.renderQuestion();
         } catch (error) {
             console.error('❌ 初始化失敗:', error);
-            this.showError('初始化失敗，請重新整理頁面');
+            this.showError('初始化失敗，請重新整理���面');
         }
     }
 
@@ -393,14 +393,34 @@ class QuizManager {
     }
 }
 
-// Initialize quiz when DOM is loaded
+// ============================================
+// ✅ 全域函數區（在 class 定義之外）
+// ============================================
+
+/**
+ * Initialize quiz when DOM is loaded
+ */
 document.addEventListener('DOMContentLoaded', () => {
     window.quizManager = new QuizManager();
+    console.log('✅ QuizManager 已初始化');
 });
 
-// ✅ Global nextQuestion function for HTML onclick
+/**
+ * Global nextQuestion function for HTML onclick
+ */
 function nextQuestion() {
     if (window.quizManager) {
         window.quizManager.nextQuestion();
+    } else {
+        console.error('❌ QuizManager 尚未初始化');
+    }
+}
+
+/**
+ * Helper function for vibration
+ */
+function vibrate(pattern) {
+    if (navigator.vibrate) {
+        navigator.vibrate(pattern);
     }
 }
