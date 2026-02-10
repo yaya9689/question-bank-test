@@ -7,193 +7,33 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/animations.css">
     <link rel="stylesheet" href="css/responsive.css">
-    <style>
-        .mistakes-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .mistakes-summary {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            padding: 25px;
-            margin-bottom: 30px;
-            text-align: center;
-            box-shadow: var(--glass-shadow);
-        }
-
-        .mistakes-summary p {
-            font-size: 18px;
-            color: rgba(255, 255, 255, 0.9);
-            margin: 0;
-        }
-
-        .mistakes-summary strong {
-            color: var(--error-color);
-            font-size: 24px;
-        }
-
-        .no-mistakes {
-            font-size: 20px;
-            color: var(--success-color) !important;
-        }
-
-        .mistake-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            padding: 25px;
-            margin-bottom: 20px;
-            box-shadow: var(--glass-shadow);
-            transition: all 0.3s ease;
-        }
-
-        .mistake-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--glass-shadow-hover);
-        }
-
-        .mistake-number {
-            display: inline-block;
-            background: var(--error-color);
-            color: white;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-weight: 600;
-            margin-bottom: 15px;
-        }
-
-        .mistake-question {
-            font-size: 18px;
-            color: rgba(255, 255, 255, 0.95);
-            margin-bottom: 20px;
-            line-height: 1.6;
-        }
-
-        .mistake-options {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .mistake-option {
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            padding: 15px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            transition: all 0.3s ease;
-        }
-
-        .mistake-option.correct {
-            background: var(--success-glow);
-            border-color: var(--success-color);
-        }
-
-        .mistake-option-label {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            flex-shrink: 0;
-        }
-
-        .mistake-option.correct .mistake-option-label {
-            background: var(--success-color);
-        }
-
-        .mistake-option-text {
-            color: rgba(255, 255, 255, 0.9);
-            flex: 1;
-        }
-
-        .mistake-option.correct .mistake-option-text {
-            color: white;
-            font-weight: 500;
-        }
-
-        .loading-container {
-            text-align: center;
-            padding: 60px 20px;
-        }
-
-        .loading-spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid rgba(255, 255, 255, 0.2);
-            border-top-color: var(--primary-color);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .loading-container p {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 16px;
-        }
-
-        .error-message {
-            background: var(--error-glow);
-            border: 2px solid var(--error-color);
-            border-radius: 12px;
-            padding: 20px;
-            margin: 20px 0;
-            text-align: center;
-        }
-
-        .error-message p {
-            color: var(--error-color);
-            font-size: 16px;
-            font-weight: 500;
-        }
-
-        @media (max-width: 768px) {
-            .mistakes-container {
-                padding: 15px;
-            }
-
-            .mistake-card {
-                padding: 20px;
-            }
-
-            .mistake-question {
-                font-size: 16px;
-            }
-        }
-    </style>
 </head>
 <body>
-    <div class="mistakes-container">
+    <div class="container">
         <header class="page-header">
             <button class="back-btn" onclick="goHome()">← 返回首頁</button>
             <h1>❌ 錯題回顧</h1>
         </header>
 
-        <div class="mistakes-content">
-            <div class="mistakes-summary" id="mistakesSummary">
-                <div class="loading-container">
-                    <div class="loading-spinner"></div>
-                    <p>載入中...</p>
-                </div>
+        <div class="mistakes-header" style="text-align: center; margin: 30px 0;">
+            <p style="font-size: 18px; color: var(--text-gray);">
+                你有 <strong id="mistakeCount" style="color: var(--error-color); font-size: 24px;">0</strong> 題答錯。請在下方複習：
+            </p>
+        </div>
+
+        <div id="mistakesContainer" style="max-width: 800px; margin: 0 auto;">
+            <!-- 錯題將在這裡動態載入 -->
+            <div style="text-align: center; padding: 40px;">
+                <div class="loading-spinner"></div>
+                <p style="color: var(--text-gray); margin-top: 20px;">載入中...</p>
             </div>
-            <div class="mistakes-list" id="mistakesList"></div>
+        </div>
+
+        <div style="text-align: center; margin: 40px 0;">
+            <button class="btn btn-secondary" onclick="resetMistakes()">清除所有錯題記錄</button>
+            <button class="btn btn-primary" onclick="window.location.href='quiz.html'" style="margin-left: 10px;">
+                重新練習
+            </button>
         </div>
     </div>
 
@@ -201,139 +41,203 @@
     <script src="js/utils.js"></script>
     <script src="js/animations.js"></script>
     <script>
-        // 頁面載入時執行
+        // ✅ 完整的錯題回顧邏輯
         document.addEventListener('DOMContentLoaded', async function() {
-            await loadMistakes();
-        });
-
-        /**
-         * 載入錯題列表
-         */
-        async function loadMistakes() {
             const storage = new ProgressManager();
-            const mistakes = storage.getMistakes();
+            const mistakeIds = storage.getMistakes();
             
-            const summaryEl = document.getElementById('mistakesSummary');
-            const listEl = document.getElementById('mistakesList');
-
-            console.log('🔍 錯題 ID:', mistakes);
-            console.log('🔍 錯題數量:', mistakes.length);
-
-            // 檢查是否有錯題
-            if (mistakes.length === 0) {
-                summaryEl.innerHTML = '<p class="no-mistakes">🎉 太棒了！目前沒有答錯的題目！</p>';
-                listEl.innerHTML = '';
+            if (mistakeIds.length === 0) {
+                document.getElementById('mistakesContainer').innerHTML = `
+                    <div style="text-align: center; padding: 40px;">
+                        <div style="font-size: 64px;">🎉</div>
+                        <h3 style="margin-top: 20px;">太棒了！沒有錯題！</h3>
+                        <p style="color: var(--text-gray);">繼續保持！</p>
+                    </div>
+                `;
                 return;
             }
-
-            summaryEl.innerHTML = `<p>你有 <strong>${mistakes.length}</strong> 題答錯。請在下方複習：</p>`;
-
-            // 載入題目
-            try {
-                const allQuestions = await loadQuestions();
-                
-                console.log('📚 載入的題目數量:', allQuestions.length);
-                console.log('📝 第一題範例:', allQuestions[0]);
-                console.log('📝 第一題 ID 型別:', typeof allQuestions[0]?.id);
-
-                if (!allQuestions || allQuestions.length === 0) {
-                    throw new Error('無法載入題目資料');
+            
+            // 載入所有題目
+            const allQuestions = await loadQuestions();
+            
+            // ✅ 解析複合 ID
+            function parseQuestionId(compositeId) {
+                if (typeof compositeId === 'string') {
+                    if (compositeId.startsWith('q')) {
+                        const match = compositeId.match(/^q(\d+)_/);
+                        return match ? parseInt(match[1]) : null;
+                    } else if (compositeId.startsWith('index_')) {
+                        return null;
+                    }
                 }
-
-                // 建立 ID 映射表（優化查找效能）
-                const questionMap = new Map();
-                allQuestions.forEach(q => {
-                    questionMap.set(String(q.id), q);
-                    questionMap.set(Number(q.id), q);
-                });
-
-                console.log('🗺️ 題目映射表大小:', questionMap.size);
-
-                // 渲染錯題卡片
-                listEl.innerHTML = '';
-                let foundCount = 0;
-                let notFoundIds = [];
-
-                mistakes.forEach((mistakeId, index) => {
-                    console.log(`\n🔎 尋找錯題 ${index + 1}:`, mistakeId, typeof mistakeId);
-
-                    // 多種方式嘗試找到題目
-                    let question = questionMap.get(mistakeId) || 
-                                   questionMap.get(String(mistakeId)) || 
-                                   questionMap.get(Number(mistakeId));
-
-                    // 如果映射表找不到，使用 find 方法再試一次
+                return parseInt(compositeId);
+            }
+            
+            // ✅ 找出對應的題目
+            const mistakeQuestions = mistakeIds
+                .map(compositeId => {
+                    const originalId = parseQuestionId(compositeId);
+                    if (originalId === null) {
+                        console.warn(`無法解析 ID: ${compositeId}`);
+                        return null;
+                    }
+                    const question = allQuestions.find(q => q.id === originalId);
                     if (!question) {
-                        question = allQuestions.find(q => 
-                            q.id == mistakeId ||
-                            String(q.id) === String(mistakeId) ||
-                            Number(q.id) === Number(mistakeId)
-                        );
+                        console.warn(`找不到題目 ID: ${originalId} (複合ID: ${compositeId})`);
                     }
-
-                    if (question) {
-                        console.log(`✅ 找到題目 ${mistakeId}:`, question.question.substring(0, 30) + '...');
-                        foundCount++;
-                        renderMistakeCard(question, index + 1, listEl);
-                    } else {
-                        console.warn(`❌ 找不到題目 ID: ${mistakeId}`);
-                        notFoundIds.push(mistakeId);
-                    }
-                });
-
-                console.log(`\n📊 統計：成功載入 ${foundCount}/${mistakes.length} 題`);
-                
-                if (notFoundIds.length > 0) {
-                    console.warn('⚠️ 找不到的題目 ID:', notFoundIds);
-                    
-                    const errorDiv = document.createElement('div');
-                    errorDiv.className = 'error-message';
-                    errorDiv.innerHTML = `
-                        <p>⚠️ 有 ${notFoundIds.length} 題無法載入（ID: ${notFoundIds.join(', ')}）</p>
-                        <p>這可能是因為題庫已更新，建議重置進度。</p>
-                    `;
-                    listEl.appendChild(errorDiv);
-                }
-
-            } catch (error) {
-                console.error('❌ 載入錯題時發生錯誤:', error);
-                summaryEl.innerHTML = `
-                    <div class="error-message">
-                        <p>❌ 載入錯題失敗：${error.message}</p>
-                        <p>請重新整理頁面或返回首頁。</p>
+                    return question;
+                })
+                .filter(q => q !== null);
+            
+            // 顯示統計
+            const totalMistakes = mistakeIds.length;
+            const loadedMistakes = mistakeQuestions.length;
+            const failedCount = totalMistakes - loadedMistakes;
+            
+            document.getElementById('mistakeCount').textContent = totalMistakes;
+            
+            if (failedCount > 0) {
+                const warningDiv = document.createElement('div');
+                warningDiv.style.cssText = 'margin: 20px auto; padding: 15px; background: rgba(251, 188, 4, 0.1); border: 1px solid #FBBC04; border-radius: 12px; max-width: 800px;';
+                warningDiv.innerHTML = `
+                    <p style="color: #FBBC04; margin: 0; font-size: 14px; text-align: center;">
+                        ⚠️ 有 ${failedCount} 題無法載入（題庫可能已更新）
+                        <button onclick="resetAndRestart()" style="margin-left: 10px; padding: 5px 15px; background: #FBBC04; color: white; border: none; border-radius: 6px; cursor: pointer;">
+                            重置進度
+                        </button>
+                    </p>
+                `;
+                document.querySelector('.container').insertBefore(
+                    warningDiv, 
+                    document.getElementById('mistakesContainer')
+                );
+            }
+            
+            // 渲染錯題
+            if (mistakeQuestions.length === 0) {
+                document.getElementById('mistakesContainer').innerHTML = `
+                    <div style="text-align: center; padding: 40px;">
+                        <div style="font-size: 64px;">⚠️</div>
+                        <h3 style="margin-top: 20px;">無法載入錯題</h3>
+                        <p style="color: var(--text-gray);">題庫可能已更新，建議重置進度</p>
+                        <button class="btn btn-primary" onclick="resetAndRestart()" style="margin-top: 20px;">
+                            重置進度並重新開始
+                        </button>
                     </div>
                 `;
+                return;
+            }
+            
+            const container = document.getElementById('mistakesContainer');
+            container.innerHTML = '';  // 清空載入中的提示
+            
+            mistakeQuestions.forEach((question, index) => {
+                const questionCard = createMistakeCard(question, index + 1);
+                container.appendChild(questionCard);
+            });
+        });
+
+        // 建立錯題卡片
+        function createMistakeCard(question, index) {
+            const card = document.createElement('div');
+            card.className = 'mistake-card';
+            card.style.cssText = `
+                background: var(--glass-bg);
+                backdrop-filter: blur(10px);
+                border: 1px solid var(--glass-border);
+                border-radius: 16px;
+                padding: 25px;
+                margin-bottom: 20px;
+                transition: transform 0.3s ease;
+            `;
+            
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-5px)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+            });
+            
+            const optionsHTML = Object.entries(question.options)
+                .map(([key, value]) => {
+                    const isCorrect = key === question.correctAnswer;
+                    const style = isCorrect 
+                        ? 'background: rgba(52, 168, 83, 0.2); border-left: 4px solid #34A853;' 
+                        : '';
+                    return `
+                        <div style="padding: 12px; margin: 8px 0; border-radius: 8px; ${style}">
+                            <strong>${key}.</strong> ${value}
+                            ${isCorrect ? ' <span style="color: #34A853; font-weight: 600;">✅ 正確答案</span>' : ''}
+                        </div>
+                    `;
+                }).join('');
+            
+            card.innerHTML = `
+                <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                    <span style="background: var(--error-color); color: white; padding: 8px 16px; border-radius: 8px; font-weight: 600; margin-right: 15px;">
+                        錯題 ${index}
+                    </span>
+                    <span style="color: var(--text-gray); font-size: 14px;">ID: ${question.id}</span>
+                </div>
+                <h3 style="color: var(--white); margin-bottom: 20px; line-height: 1.6; font-size: 18px;">
+                    ${question.question}
+                </h3>
+                ${optionsHTML}
+            `;
+            
+            return card;
+        }
+
+        // 重置並重新開始
+        function resetAndRestart() {
+            if (confirm('確定要重置所有進度嗎？這將清除所有答題記錄和錯題。')) {
+                const storage = new ProgressManager();
+                storage.resetProgress();
+                showToast('進度已重置', 'success');
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1000);
             }
         }
 
-        /**
-         * 渲染單個錯題卡片
-         */
-        function renderMistakeCard(question, number, container) {
-            const card = document.createElement('div');
-            card.className = 'mistake-card';
+        // 清除所有錯題記錄
+        function resetMistakes() {
+            if (confirm('確定要清除所有錯題記錄嗎？')) {
+                const storage = new ProgressManager();
+                const progress = storage.loadProgress();
+                if (progress) {
+                    progress.mistakes = [];
+                    storage.saveProgress(progress);
+                    showToast('錯題記錄已清除', 'success');
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1000);
+                }
+            }
+        }
 
-            const optionsHTML = Object.keys(question.options).map(key => {
-                const isCorrect = key === question.correctAnswer;
-                return `
-                    <div class="mistake-option ${isCorrect ? 'correct' : ''}">
-                        <div class="mistake-option-label">${key}</div>
-                        <div class="mistake-option-text">${question.options[key]}</div>
-                        ${isCorrect ? '<span style="margin-left: auto; color: var(--success-color); font-weight: 600;">✓ 正確答案</span>' : ''}
-                    </div>
-                `;
-            }).join('');
-
-            card.innerHTML = `
-                <div class="mistake-number">錯題 #${number}</div>
-                <div class="mistake-question">${question.question}</div>
-                <div class="mistake-options">
-                    ${optionsHTML}
-                </div>
-            `;
-
-            container.appendChild(card);
+        // 返回首頁
+        function goHome() {
+            window.location.href = 'index.html';
         }
     </script>
+
+    <style>
+        .loading-spinner {
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
 </body>
 </html>
