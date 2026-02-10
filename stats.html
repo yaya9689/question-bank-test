@@ -45,6 +45,7 @@
 
             <div class="action-buttons">
                 <button class="btn btn-primary" onclick="continueQuiz()">繼續練習</button>
+                <button class="btn btn-secondary" onclick="viewMistakes()">錯題回顧</button>
                 <button class="btn btn-secondary" onclick="resetProgress()">重置進度</button>
             </div>
         </div>
@@ -76,31 +77,41 @@
             }
             
             // Animate counters
-            if (window.animations && window.animations.animateCounter) {
-                window.animations.animateCounter(document.getElementById('completedCount'), stats.completed, 1000);
-                window.animations.animateCounter(document.getElementById('correctCount'), stats.correct, 1000);
-                window.animations.animateCounter(document.getElementById('incorrectCount'), stats.incorrect, 1000);
+            if (window.animations && window.animations.animateValue) {
+                window.animations.animateValue('completedCount', 0, stats.completed, 1000);
+                window.animations.animateValue('correctCount', 0, stats.correct, 1000);
+                window.animations.animateValue('incorrectCount', 0, stats.incorrect, 1000);
             }
         });
 
+        // Continue quiz
         function continueQuiz() {
             window.location.href = 'quiz.html';
         }
 
-        function resetProgress() {
-            if (confirm('確定要重置所有進度嗎？此操作無法復原。')) {
-                const storage = new ProgressManager();
-                storage.resetProgress();
-                // Show toast and reload after user can see it
-                if (window.showToast) {
-                    showToast('進度已成功重置！', 'success');
-                }
-                setTimeout(() => location.reload(), 3500);
+        // View mistakes
+        function viewMistakes() {
+            const storage = new ProgressManager();
+            const mistakes = storage.getMistakes();
+            
+            if (mistakes.length === 0) {
+                showToast('太棒了！目前沒有錯題！', 'success');
+                return;
             }
+            
+            window.location.href = 'mistakes.html';
         }
 
-        function goHome() {
-            window.location.href = 'index.html';
+        // Reset progress
+        function resetProgress() {
+            if (confirm('⚠️ 確定要重置所有進度嗎？此操作無法復原！')) {
+                const storage = new ProgressManager();
+                storage.resetProgress();
+                showToast('進度已重置', 'success');
+                setTimeout(() => {
+                    location.reload();
+                }, 1000);
+            }
         }
     </script>
 </body>
