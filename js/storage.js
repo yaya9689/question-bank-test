@@ -62,7 +62,7 @@ class ProgressManager {
     }
 
     /**
-     * Save answer for a question
+     * ✅ 修正：儲存答案並正確處理錯題陣列
      * @param {number} questionId - Question ID
      * @param {string} selectedAnswer - Selected answer (A, B, C, or D)
      * @param {boolean} isCorrect - Whether the answer is correct
@@ -70,17 +70,31 @@ class ProgressManager {
     saveAnswer(questionId, selectedAnswer, isCorrect) {
         const progress = this.loadProgress();
         if (progress) {
+            // 儲存答案記錄
             progress.answers[questionId] = {
                 selected: selectedAnswer,
                 correct: isCorrect,
                 timestamp: new Date().toISOString()
             };
             
-            if (!isCorrect && !progress.mistakes.includes(questionId)) {
-                progress.mistakes.push(questionId);
+            if (!isCorrect) {
+                // ❌ 答錯：加入錯題陣列（如果尚未存在）
+                if (!progress.mistakes.includes(questionId)) {
+                    progress.mistakes.push(questionId);
+                }
+            } else {
+                // ✅ 答對：從錯題陣列移除（如果之前答錯過）
+                const index = progress.mistakes.indexOf(questionId);
+                if (index > -1) {
+                    progress.mistakes.splice(index, 1);
+                }
             }
             
             this.saveProgress(progress);
+            
+            // 除錯日誌
+            console.log(`💾 答案已儲存 - ID: ${questionId}, 選擇: ${selectedAnswer}, 結果: ${isCorrect ? '✅' : '❌'}`);
+            console.log(`📊 錯題陣列:`, progress.mistakes);
         }
     }
 
@@ -118,7 +132,7 @@ class ProgressManager {
         const progress = this.loadProgress();
         if (!progress) {
             return {
-                total: 254,  // ✅ 修正：改為 254 題
+                total: 254,
                 completed: 0,
                 correct: 0,
                 incorrect: 0,
@@ -133,7 +147,7 @@ class ProgressManager {
         const accuracy = completed > 0 ? Math.round((correct / completed) * 100) : 0;
 
         return {
-            total: 254,  // ✅ 修正：改為 254 題
+            total: 254,
             completed,
             correct,
             incorrect,
@@ -149,9 +163,25 @@ class ProgressManager {
             currentQuestion: 0,
             answers: {},
             mistakes: [],
-            startedAt: new Date().toISOString()
+            timestamp: new Date().toISOString()
         };
         this.saveProgress(initialProgress);
+        console.log('🔄 進度已重置');
+        return initialProgress;
+    }
+
+    /**
+     * Clear all stored data
+     */
+    clearAll() {
+        try {
+            localStorage.removeItem(this.storageKey);
+            console.log('🗑️ 所有資料已清除');
+            return true;
+        } catch (error) {
+            console.error('Error clearing data:', error);
+            return false;
+        }
     }
 
     /**
@@ -167,9 +197,27 @@ class ProgressManager {
             return false;
         }
     }
-}
 
-// Make ProgressManager available globally
-if (typeof window !== 'undefined') {
-    window.ProgressManager = ProgressManager;
+    /**
+     * Export progress data (for backup)
+     */
+    exportData() {
+        const progress = this.loadProgress();
+        return JSON.stringify(progress, null, 2);
+    }
+
+    /**
+     * Import progress data (from backup)
+     */
+    importData(jsonString) {
+        try {
+            const data = JSON.parse(jsonString);
+            this.saveProgress(data);
+            console.log('✅ 資料已匯入');
+            return true;
+        } catch (error) {
+            console.error('❌ 匯入失敗:', error);
+            return false;
+        }
+    }
 }
