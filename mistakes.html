@@ -8,9 +8,10 @@
     <link rel="stylesheet" href="css/animations.css">
     <link rel="stylesheet" href="css/responsive.css">
     <style>
-        /* 錯題卡片樣式 */
         .mistakes-container {
-            animation: fadeIn 0.6s ease-out;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
         }
 
         .mistakes-summary {
@@ -18,16 +19,16 @@
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 20px;
+            border-radius: 16px;
+            padding: 25px;
             margin-bottom: 30px;
             text-align: center;
             box-shadow: var(--glass-shadow);
         }
 
         .mistakes-summary p {
-            color: var(--white);
             font-size: 18px;
+            color: rgba(255, 255, 255, 0.9);
             margin: 0;
         }
 
@@ -37,14 +38,8 @@
         }
 
         .no-mistakes {
-            font-size: 20px !important;
+            font-size: 20px;
             color: var(--success-color) !important;
-        }
-
-        .mistakes-list {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
         }
 
         .mistake-card {
@@ -52,8 +47,9 @@
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border: 1px solid var(--glass-border);
-            border-radius: 20px;
+            border-radius: 16px;
             padding: 25px;
+            margin-bottom: 20px;
             box-shadow: var(--glass-shadow);
             transition: all 0.3s ease;
         }
@@ -63,161 +59,136 @@
             box-shadow: var(--glass-shadow-hover);
         }
 
+        .mistake-number {
+            display: inline-block;
+            background: var(--error-color);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
         .mistake-question {
-            color: var(--white);
             font-size: 18px;
+            color: rgba(255, 255, 255, 0.95);
             margin-bottom: 20px;
             line-height: 1.6;
         }
 
-        .mistake-question strong {
-            color: var(--primary-color);
-        }
-
-        .mistake-answers {
+        .mistake-options {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
         }
 
-        .answer-row {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-        }
-
-        .answer-label {
-            font-weight: 600;
-            min-width: 100px;
-            padding: 8px 12px;
-            border-radius: 8px;
-            font-size: 14px;
-        }
-
-        .answer-label.incorrect {
-            background: var(--error-color);
-            color: var(--white);
-        }
-
-        .answer-label.correct {
-            background: var(--success-color);
-            color: var(--white);
-        }
-
-        .answer-text {
-            flex: 1;
-            color: var(--white);
-            padding: 8px 12px;
+        .mistake-option {
             background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            line-height: 1.5;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s ease;
         }
 
-        /* 載入狀態 */
-        .loading {
+        .mistake-option.correct {
+            background: var(--success-glow);
+            border-color: var(--success-color);
+        }
+
+        .mistake-option-label {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .mistake-option.correct .mistake-option-label {
+            background: var(--success-color);
+        }
+
+        .mistake-option-text {
+            color: rgba(255, 255, 255, 0.9);
+            flex: 1;
+        }
+
+        .mistake-option.correct .mistake-option-text {
+            color: white;
+            font-weight: 500;
+        }
+
+        .loading-container {
             text-align: center;
-            color: var(--white);
-            padding: 40px 20px;
-            font-size: 18px;
+            padding: 60px 20px;
         }
 
         .loading-spinner {
-            border: 3px solid rgba(255, 255, 255, 0.2);
-            border-top: 3px solid var(--primary-color);
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 255, 255, 0.2);
+            border-top-color: var(--primary-color);
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
             animation: spin 1s linear infinite;
             margin: 0 auto 20px;
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            to { transform: rotate(360deg); }
         }
 
-        /* 錯誤訊息樣式 */
+        .loading-container p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 16px;
+        }
+
         .error-message {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            border-left: 4px solid var(--error-color);
+            background: var(--error-glow);
+            border: 2px solid var(--error-color);
             border-radius: 12px;
-            padding: 30px;
+            padding: 20px;
+            margin: 20px 0;
             text-align: center;
-            color: var(--white);
         }
 
         .error-message p {
-            margin: 10px 0;
-            color: var(--white);
+            color: var(--error-color);
+            font-size: 16px;
+            font-weight: 500;
         }
 
-        .error-message .retry-btn {
-            margin-top: 20px;
-        }
-
-        /* 動畫 */
-        .animate-on-scroll {
-            animation: fadeInUp 0.6s ease-out both;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
+        @media (max-width: 768px) {
+            .mistakes-container {
+                padding: 15px;
             }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
 
-        /* 響應式設計 */
-        @media (max-width: 375px) {
+            .mistake-card {
+                padding: 20px;
+            }
+
             .mistake-question {
                 font-size: 16px;
             }
-
-            .answer-row {
-                flex-direction: column;
-            }
-
-            .answer-label {
-                min-width: auto;
-            }
-        }
-
-        /* 除錯資訊 (開發時使用，上線時可移除) */
-        .debug-info {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            padding: 15px;
-            margin-top: 20px;
-            font-size: 12px;
-            color: #ccc;
-            font-family: monospace;
-            text-align: left;
-        }
-
-        .debug-info p {
-            margin: 5px 0;
-            color: #ccc;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="page-header">
+    <div class="mistakes-container">
+        <header class="page-header">
             <button class="back-btn" onclick="goHome()">← 返回首頁</button>
             <h1>❌ 錯題回顧</h1>
-        </div>
+        </header>
 
-        <div class="mistakes-container">
+        <div class="mistakes-content">
             <div class="mistakes-summary" id="mistakesSummary">
-                <div class="loading">
+                <div class="loading-container">
                     <div class="loading-spinner"></div>
                     <p>載入中...</p>
                 </div>
@@ -230,13 +201,13 @@
     <script src="js/utils.js"></script>
     <script src="js/animations.js"></script>
     <script>
-        // ✅ 頁面載入時執行
+        // 頁面載入時執行
         document.addEventListener('DOMContentLoaded', async function() {
             await loadMistakes();
         });
 
         /**
-         * ✅ 載入錯題列表（已修正並加入完整除錯）
+         * 載入錯題列表
          */
         async function loadMistakes() {
             const storage = new ProgressManager();
@@ -245,11 +216,10 @@
             const summaryEl = document.getElementById('mistakesSummary');
             const listEl = document.getElementById('mistakesList');
 
-            // ✅ 除錯：顯示錯題 ID
             console.log('🔍 錯題 ID:', mistakes);
             console.log('🔍 錯題數量:', mistakes.length);
 
-            // ✅ 檢查是否有錯題
+            // 檢查是否有錯題
             if (mistakes.length === 0) {
                 summaryEl.innerHTML = '<p class="no-mistakes">🎉 太棒了！目前沒有答錯的題目！</p>';
                 listEl.innerHTML = '';
@@ -258,166 +228,111 @@
 
             summaryEl.innerHTML = `<p>你有 <strong>${mistakes.length}</strong> 題答錯。請在下方複習：</p>`;
 
-            // ✅ 載入題目
+            // 載入題目
             try {
                 const allQuestions = await loadQuestions();
                 
-                // ✅ 除錯：顯示載入的題目資訊
                 console.log('📚 載入的題目數量:', allQuestions.length);
                 console.log('📝 第一題範例:', allQuestions[0]);
                 console.log('📝 第一題 ID 型別:', typeof allQuestions[0]?.id);
 
-                // ✅ 檢查是否成功載入題目
                 if (!allQuestions || allQuestions.length === 0) {
                     throw new Error('無法載入題目資料');
                 }
 
-                // ✅ 建立 ID 映射表（優化查找效能）
+                // 建立 ID 映射表（優化查找效能）
                 const questionMap = new Map();
                 allQuestions.forEach(q => {
-                    // 同時儲存字串和數字型別的 ID
                     questionMap.set(String(q.id), q);
                     questionMap.set(Number(q.id), q);
                 });
 
                 console.log('🗺️ 題目映射表大小:', questionMap.size);
 
-                // ✅ 渲染錯題卡片
+                // 渲染錯題卡片
                 listEl.innerHTML = '';
                 let foundCount = 0;
                 let notFoundIds = [];
 
                 mistakes.forEach((mistakeId, index) => {
-                    // ✅ 修正：同時嘗試字串和數字型別的 ID
+                    console.log(`\n🔎 尋找錯題 ${index + 1}:`, mistakeId, typeof mistakeId);
+
+                    // 多種方式嘗試找到題目
                     let question = questionMap.get(mistakeId) || 
                                    questionMap.get(String(mistakeId)) || 
                                    questionMap.get(Number(mistakeId));
 
-                    // ✅ 如果映射表找不到，使用 find 方法再試一次
+                    // 如果映射表找不到，使用 find 方法再試一次
                     if (!question) {
                         question = allQuestions.find(q => 
-                            q.id == mistakeId || 
+                            q.id == mistakeId ||
                             String(q.id) === String(mistakeId) ||
                             Number(q.id) === Number(mistakeId)
                         );
                     }
 
                     if (question) {
-                        foundCount++;
-                        const userAnswer = storage.getAnswer(mistakeId);
-                        const mistakeCard = createMistakeCard(question, userAnswer, index + 1);
-                        mistakeCard.classList.add('animate-on-scroll');
-                        mistakeCard.style.animationDelay = `${index * 0.1}s`;
-                        listEl.appendChild(mistakeCard);
-                        
                         console.log(`✅ 找到題目 ${mistakeId}:`, question.question.substring(0, 30) + '...');
+                        foundCount++;
+                        renderMistakeCard(question, index + 1, listEl);
                     } else {
+                        console.warn(`❌ 找不到題目 ID: ${mistakeId}`);
                         notFoundIds.push(mistakeId);
-                        console.warn(`⚠️ 找不到題目 ID: ${mistakeId} (型別: ${typeof mistakeId})`);
                     }
                 });
 
-                // ✅ 顯示統計結果
-                console.log(`✅ 成功載入 ${foundCount}/${mistakes.length} 題`);
+                console.log(`\n📊 統計：成功載入 ${foundCount}/${mistakes.length} 題`);
+                
                 if (notFoundIds.length > 0) {
                     console.warn('⚠️ 找不到的題目 ID:', notFoundIds);
-                }
-
-                // ✅ 如果沒有找到任何題目，顯示錯誤
-                if (foundCount === 0) {
-                    summaryEl.innerHTML = `
-                        <div class="error-message">
-                            <p style="font-size: 20px;">⚠️ 無法載入錯題資料</p>
-                            <p style="font-size: 14px; color: rgba(255,255,255,0.7);">
-                                找到 ${mistakes.length} 個錯題 ID，但無法匹配到題目資料
-                            </p>
-                            <button class="btn btn-primary retry-btn" onclick="loadMistakes()">重新載入</button>
-                            <button class="btn btn-secondary" onclick="showDebugInfo()">顯示除錯資訊</button>
-                        </div>
+                    
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = 'error-message';
+                    errorDiv.innerHTML = `
+                        <p>⚠️ 有 ${notFoundIds.length} 題無法載入（ID: ${notFoundIds.join(', ')}）</p>
+                        <p>這可能是因為題庫已更新，建議重置進度。</p>
                     `;
-                } else if (notFoundIds.length > 0) {
-                    // ✅ 部分找到，顯示警告
-                    summaryEl.innerHTML = `
-                        <p>你有 <strong>${mistakes.length}</strong> 題答錯，已載入 <strong>${foundCount}</strong> 題。</p>
-                        <p style="font-size: 14px; color: var(--warning-color); margin-top: 10px;">
-                            ⚠️ 有 ${notFoundIds.length} 題無法載入
-                        </p>
-                    `;
+                    listEl.appendChild(errorDiv);
                 }
 
             } catch (error) {
-                // ✅ 錯誤處理
-                console.error('❌ 載入錯題失敗:', error);
+                console.error('❌ 載入錯題時發生錯誤:', error);
                 summaryEl.innerHTML = `
                     <div class="error-message">
-                        <p style="font-size: 20px;">⚠️ 載入失敗</p>
-                        <p style="font-size: 14px; color: rgba(255,255,255,0.7);">
-                            ${error.message}
-                        </p>
-                        <button class="btn btn-primary retry-btn" onclick="loadMistakes()">重新載入</button>
-                        <button class="btn btn-secondary" onclick="goHome()">返回首頁</button>
+                        <p>❌ 載入錯題失敗：${error.message}</p>
+                        <p>請重新整理頁面或返回首頁。</p>
                     </div>
                 `;
-                listEl.innerHTML = '';
             }
         }
 
         /**
-         * ✅ 建立錯題卡片（已優化）
+         * 渲染單個錯題卡片
          */
-        function createMistakeCard(question, userAnswer, questionNumber) {
+        function renderMistakeCard(question, number, container) {
             const card = document.createElement('div');
             card.className = 'mistake-card';
-            
-            const userAnswerText = question.options[userAnswer] || '未作答';
-            const correctAnswerText = question.options[question.correctAnswer] || '未知';
+
+            const optionsHTML = Object.keys(question.options).map(key => {
+                const isCorrect = key === question.correctAnswer;
+                return `
+                    <div class="mistake-option ${isCorrect ? 'correct' : ''}">
+                        <div class="mistake-option-label">${key}</div>
+                        <div class="mistake-option-text">${question.options[key]}</div>
+                        ${isCorrect ? '<span style="margin-left: auto; color: var(--success-color); font-weight: 600;">✓ 正確答案</span>' : ''}
+                    </div>
+                `;
+            }).join('');
 
             card.innerHTML = `
-                <div class="mistake-question">
-                    <strong>題目 ${questionNumber}:</strong> ${question.question}
-                </div>
-                <div class="mistake-answers">
-                    <div class="answer-row">
-                        <span class="answer-label incorrect">❌ 你的答案</span>
-                        <span class="answer-text">${userAnswer}. ${userAnswerText}</span>
-                    </div>
-                    <div class="answer-row">
-                        <span class="answer-label correct">✅ 正確答案</span>
-                        <span class="answer-text">${question.correctAnswer}. ${correctAnswerText}</span>
-                    </div>
+                <div class="mistake-number">錯題 #${number}</div>
+                <div class="mistake-question">${question.question}</div>
+                <div class="mistake-options">
+                    ${optionsHTML}
                 </div>
             `;
 
-            return card;
-        }
-
-        /**
-         * ✅ 顯示除錯資訊（開發用）
-         */
-        function showDebugInfo() {
-            const storage = new ProgressManager();
-            const progress = storage.loadProgress();
-            const mistakes = storage.getMistakes();
-
-            const debugDiv = document.createElement('div');
-            debugDiv.className = 'debug-info';
-            debugDiv.innerHTML = `
-                <h3 style="color: var(--primary-color); margin-bottom: 10px;">🔧 除錯資訊</h3>
-                <p><strong>錯題數量:</strong> ${mistakes.length}</p>
-                <p><strong>錯題 ID:</strong> ${JSON.stringify(mistakes)}</p>
-                <p><strong>ID 型別:</strong> ${mistakes.length > 0 ? typeof mistakes[0] : 'N/A'}</p>
-                <p><strong>已回答題數:</strong> ${Object.keys(progress.answers).length}</p>
-                <p><strong>LocalStorage 可用:</strong> ${ProgressManager.isAvailable() ? '是' : '否'}</p>
-                <button class="btn btn-secondary" style="margin-top: 10px;" onclick="this.parentElement.remove()">關閉</button>
-            `;
-
-            document.querySelector('.mistakes-container').insertBefore(
-                debugDiv, 
-                document.getElementById('mistakesList')
-            );
-
-            // 同時輸出到 Console
-            console.log('🔧 完整進度資料:', progress);
+            container.appendChild(card);
         }
     </script>
 </body>
