@@ -6,7 +6,13 @@
  * Navigate to home page
  */
 function goHome() {
-    window.location.href = 'index.html';
+    if (window.location.pathname.includes('quiz.html')) {
+        if (confirm('確定要返回首頁嗎？未完成的進度將會保存。')) {
+            window.location.href = 'index.html';
+        }
+    } else {
+        window.location.href = 'index.html';
+    }
 }
 
 /**
@@ -55,7 +61,7 @@ function debounce(func, wait) {
 /**
  * Show notification/toast message with glassmorphism design
  * @param {string} message - Message to display
- * @param {string} type - Type of notification (success, error, info)
+ * @param {string} type - Type of notification (success, error, info, warning)
  */
 function showNotification(message, type = 'info') {
     // Remove existing toasts
@@ -88,76 +94,6 @@ function showToast(message, type = 'info') {
 }
 
 /**
- * Add slide in/out animations and toast styles
- */
-if (typeof document !== 'undefined') {
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes slideIn {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-        @keyframes slideOut {
-            from {
-                transform: translateX(0);
-                opacity: 1;
-            }
-            to {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-        }
-        
-        /* Toast Notification Styles */
-        .toast {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 15px 25px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
-            font-weight: 500;
-            transform: translateX(400px);
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 10000;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-            min-width: 250px;
-        }
-        
-        .toast.show {
-            transform: translateX(0);
-        }
-        
-        .toast-success {
-            border-left: 4px solid #34A853;
-        }
-        
-        .toast-error {
-            border-left: 4px solid #EA4335;
-        }
-        
-        .toast-warning {
-            border-left: 4px solid #FBBC04;
-        }
-        
-        .toast-info {
-            border-left: 4px solid #4285F4;
-        }
-    `;
-    document.head.appendChild(style);
-}
-
-/**
  * Load questions from multiple JSON files
  * @returns {Promise<Array>} - Array of all questions
  */
@@ -179,17 +115,19 @@ async function loadQuestions() {
         ];
         
         let allQuestions = [];
+        
         for (const file of files) {
             try {
                 const response = await fetch(file);
                 if (!response.ok) {
-                    console.warn(`無法載入 ${file}，跳過此檔案`);
+                    console.warn(`⚠️ 無法載入 ${file}，跳過此檔案`);
                     continue;
                 }
                 const data = await response.json();
                 allQuestions = allQuestions.concat(data);
+                console.log(`✅ 載入 ${file}: ${data.length} 題`);
             } catch (fileError) {
-                console.warn(`載入 ${file} 時發生錯誤:`, fileError);
+                console.warn(`❌ 載入 ${file} 時發生錯誤:`, fileError);
                 continue;
             }
         }
@@ -198,12 +136,14 @@ async function loadQuestions() {
             throw new Error('沒有成功載入任何題目');
         }
         
-        // 隨機打亂題目順序（解決 ID 跳號問題）
+        console.log(`🎯 總共載入 ${allQuestions.length} 題`);
+        
+        // 隨機打亂題目順序
         allQuestions = shuffleArray(allQuestions);
         
         return allQuestions;
     } catch (error) {
-        console.error('Error loading questions:', error);
+        console.error('❌ 載入題目失敗:', error);
         showNotification('載入題目失敗，請重新整理頁面。', 'error');
         return [];
     }
@@ -216,10 +156,12 @@ async function loadQuestions() {
  */
 function formatDate(dateString) {
     const date = new Date(dateString);
-    return date.toLocaleDateString('zh-TW', {
+    return date.toLocaleString('zh-TW', {
         year: 'numeric',
-        month: 'long',
-        day: 'numeric'
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit'
     });
 }
 
@@ -228,7 +170,7 @@ function formatDate(dateString) {
  * @returns {boolean}
  */
 function isMobile() {
-    return window.innerWidth <= 768;
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 }
 
 /**
@@ -247,11 +189,11 @@ function smoothScrollTo(elementId) {
 
 /**
  * Vibrate device (if supported)
- * @param {number} duration - Vibration duration in milliseconds
+ * @param {number|Array} pattern - Vibration pattern
  */
-function vibrate(duration = 100) {
-    if ('vibrate' in navigator) {
-        navigator.vibrate(duration);
+function vibrate(pattern = 100) {
+    if (navigator.vibrate) {
+        navigator.vibrate(pattern);
     }
 }
 
@@ -261,27 +203,105 @@ function vibrate(duration = 100) {
 function toggleDarkMode() {
     document.body.classList.toggle('dark-mode');
     const isDark = document.body.classList.contains('dark-mode');
-    localStorage.setItem('darkMode', isDark ? 'enabled' : 'disabled');
+    localStorage.setItem('darkMode', isDark ? 'true' : 'false');
     
-    // Update icon
     const icon = document.querySelector('.theme-icon');
     if (icon) {
         icon.textContent = isDark ? '☀️' : '🌙';
     }
-    
-    showNotification(isDark ? '已切換至深色模式' : '已切換至淺色模式', 'info');
 }
 
 /**
  * Initialize dark mode from localStorage
  */
 function initDarkMode() {
-    const darkMode = localStorage.getItem('darkMode');
-    if (darkMode === 'enabled') {
+    const isDark = localStorage.getItem('darkMode') === 'true';
+    if (isDark) {
         document.body.classList.add('dark-mode');
         const icon = document.querySelector('.theme-icon');
         if (icon) icon.textContent = '☀️';
     }
+}
+
+/**
+ * Add toast notification styles
+ */
+if (typeof document !== 'undefined') {
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+        
+        /* Toast Notification Styles */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            color: white;
+            font-weight: 500;
+            font-size: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 10000;
+            max-width: 350px;
+        }
+        
+        .toast.show {
+            opacity: 1;
+            animation: slideIn 0.3s ease;
+        }
+        
+        .toast-success {
+            border-left: 4px solid #34A853;
+        }
+        
+        .toast-error {
+            border-left: 4px solid #EA4335;
+        }
+        
+        .toast-warning {
+            border-left: 4px solid #FBBC04;
+        }
+        
+        .toast-info {
+            border-left: 4px solid #4285F4;
+        }
+        
+        @media (max-width: 768px) {
+            .toast {
+                right: 10px;
+                left: 10px;
+                max-width: none;
+            }
+        }
+    `;
+    document.head.appendChild(style);
 }
 
 // Auto-initialize dark mode on page load
