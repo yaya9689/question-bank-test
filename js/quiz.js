@@ -37,7 +37,7 @@ class QuizManager {
 
             console.log(`📚 載入 ${this.questions.length} 題`);
 
-            // ✅ 檢查 ID 重複問題
+            // ✅ 新增：檢查 ID 重複問題
             this.checkDuplicateIds();
 
             // Load saved progress
@@ -194,7 +194,6 @@ class QuizManager {
 
         // ✅ 修正：使用複合 ID 確保唯一性
         const question = this.questions[this.currentIndex];
-        // 使用 "qID_索引" 格式確保每題都有唯一識別碼
         const uniqueId = question.id ? `q${question.id}_${this.currentIndex}` : `index_${this.currentIndex}`;
         
         this.storage.saveAnswer(uniqueId, selectedKey, isCorrect);
@@ -237,9 +236,8 @@ class QuizManager {
     showComplete() {
         const stats = this.storage.getStatistics();
         
-        // ✅ 使用實際答題數量
-        const quizTotal = this.questions.length;  // 測驗題目總數
-        const actualAnswered = stats.completed;    // 實際記錄的答題數
+        const quizTotal = this.questions.length;
+        const actualAnswered = stats.completed;
         
         const container = document.querySelector('.quiz-container');
         container.innerHTML = `
@@ -310,34 +308,24 @@ class QuizManager {
             </div>
         `;
 
-        // Add styles for completion screen
+        // Add styles
         const style = document.createElement('style');
         style.textContent = `
             .quiz-complete {
                 text-align: center;
                 padding: 40px 20px;
             }
-
             .completion-icon {
                 animation: bounce 1s ease infinite;
             }
-
             @keyframes bounce {
                 0%, 100% { transform: translateY(0); }
                 50% { transform: translateY(-20px); }
             }
-
             @keyframes fadeIn {
-                from {
-                    opacity: 0;
-                    transform: translateY(20px);
-                }
-                to {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
             }
-
             .stats-summary {
                 display: grid;
                 grid-template-columns: repeat(3, 1fr);
@@ -347,7 +335,6 @@ class QuizManager {
                 margin-left: auto;
                 margin-right: auto;
             }
-
             .stat-item {
                 background: var(--glass-bg);
                 backdrop-filter: blur(10px);
@@ -357,61 +344,49 @@ class QuizManager {
                 border-radius: 16px;
                 transition: all 0.3s ease;
             }
-
             .stat-item:hover {
                 transform: translateY(-5px);
                 box-shadow: var(--glass-shadow-hover);
             }
-
             .stat-item .stat-icon {
                 font-size: 32px;
                 margin-bottom: 10px;
             }
-
             .stat-item .stat-number {
                 font-size: 42px;
                 font-weight: 700;
                 margin-bottom: 5px;
             }
-
             .stat-correct .stat-number {
                 color: var(--success-color);
             }
-
             .stat-incorrect .stat-number {
                 color: var(--error-color);
             }
-
             .stat-accuracy .stat-number {
                 color: var(--primary-color);
             }
-
             .stat-item .stat-label {
                 font-size: 14px;
                 color: var(--text-gray);
                 font-weight: 500;
             }
-
             .action-buttons {
                 display: flex;
                 gap: 15px;
                 justify-content: center;
                 flex-wrap: wrap;
             }
-
             .action-buttons .btn {
                 min-width: 150px;
             }
-
             @media (max-width: 768px) {
                 .stats-summary {
                     grid-template-columns: 1fr;
                 }
-
                 .action-buttons {
                     flex-direction: column;
                 }
-
                 .action-buttons .btn {
                     width: 100%;
                     max-width: 300px;
@@ -448,20 +423,14 @@ class QuizManager {
 }
 
 // ============================================
-// ✅ 全域函數區（在 class 定義之外）
+// 全域函數區
 // ============================================
 
-/**
- * Initialize quiz when DOM is loaded
- */
 document.addEventListener('DOMContentLoaded', () => {
     window.quizManager = new QuizManager();
     console.log('✅ QuizManager 已初始化');
 });
 
-/**
- * Global nextQuestion function for HTML onclick
- */
 function nextQuestion() {
     if (window.quizManager) {
         window.quizManager.nextQuestion();
@@ -470,9 +439,6 @@ function nextQuestion() {
     }
 }
 
-/**
- * Helper function for vibration
- */
 function vibrate(pattern) {
     if (navigator.vibrate) {
         navigator.vibrate(pattern);
