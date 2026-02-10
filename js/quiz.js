@@ -37,6 +37,9 @@ class QuizManager {
 
             console.log(`📚 載入 ${this.questions.length} 題`);
 
+            // ✅ 檢查 ID 重複問題
+            this.checkDuplicateIds();
+
             // Load saved progress
             this.currentIndex = this.storage.getCurrentQuestion();
 
@@ -44,7 +47,24 @@ class QuizManager {
             this.renderQuestion();
         } catch (error) {
             console.error('❌ 初始化失敗:', error);
-            this.showError('初始化失敗，請重新整理���面');
+            this.showError('初始化失敗，請重新整理頁面');
+        }
+    }
+
+    /**
+     * ✅ 新增：檢查題目 ID 是否重複
+     */
+    checkDuplicateIds() {
+        const allIds = this.questions.map(q => q.id);
+        const uniqueIds = new Set(allIds);
+        
+        if (allIds.length !== uniqueIds.size) {
+            const duplicateCount = allIds.length - uniqueIds.size;
+            console.warn(`⚠️ 發現 ${duplicateCount} 個重複的題目 ID！`);
+            
+            // 找出重複的 ID
+            const duplicates = allIds.filter((id, index) => allIds.indexOf(id) !== index);
+            console.warn('重複的 ID:', [...new Set(duplicates)]);
         }
     }
 
@@ -172,9 +192,12 @@ class QuizManager {
             }
         });
 
-        // Save answer
+        // ✅ 修正：使用複合 ID 確保唯一性
         const question = this.questions[this.currentIndex];
-        this.storage.saveAnswer(question.id, selectedKey, isCorrect);
+        // 使用 "qID_索引" 格式確保每題都有唯一識別碼
+        const uniqueId = question.id ? `q${question.id}_${this.currentIndex}` : `index_${this.currentIndex}`;
+        
+        this.storage.saveAnswer(uniqueId, selectedKey, isCorrect);
 
         // Enable next button
         document.getElementById('nextBtn').disabled = false;
@@ -209,13 +232,14 @@ class QuizManager {
     }
 
     /**
-     * Show quiz completion screen
+     * ✅ 修正：顯示測驗完成畫面
      */
     showComplete() {
         const stats = this.storage.getStatistics();
         
-        // ✅ 使用實際完成的題目數量
-        const actualTotal = this.questions.length;
+        // ✅ 使用實際答題數量
+        const quizTotal = this.questions.length;  // 測驗題目總數
+        const actualAnswered = stats.completed;    // 實際記錄的答題數
         
         const container = document.querySelector('.quiz-container');
         container.innerHTML = `
@@ -223,8 +247,16 @@ class QuizManager {
                 <div class="completion-icon" style="font-size: 80px; margin-bottom: 20px;">🎉</div>
                 <h2 style="color: var(--primary-color); margin-bottom: 10px;">測驗完成！</h2>
                 <p style="font-size: 18px; color: var(--text-gray); margin-bottom: 30px;">
-                    恭喜你完成所有 <strong style="color: var(--primary-color);">${actualTotal}</strong> 道題目！
+                    恭喜你完成 <strong style="color: var(--primary-color);">${quizTotal}</strong> 題測驗！
                 </p>
+                
+                ${actualAnswered !== quizTotal ? `
+                    <div style="margin-bottom: 20px; padding: 15px; background: rgba(251, 188, 4, 0.1); border: 1px solid #FBBC04; border-radius: 12px;">
+                        <p style="font-size: 14px; color: #FBBC04; margin: 0;">
+                            ℹ️ 統計記錄了 ${actualAnswered} 題（${quizTotal - actualAnswered} 題因題目 ID 重複已自動處理）
+                        </p>
+                    </div>
+                ` : ''}
                 
                 <div class="stats-summary">
                     <div class="stat-item stat-correct">
@@ -295,6 +327,17 @@ class QuizManager {
                 50% { transform: translateY(-20px); }
             }
 
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
             .stats-summary {
                 display: grid;
                 grid-template-columns: repeat(3, 1fr);
@@ -356,6 +399,10 @@ class QuizManager {
                 flex-wrap: wrap;
             }
 
+            .action-buttons .btn {
+                min-width: 150px;
+            }
+
             @media (max-width: 768px) {
                 .stats-summary {
                     grid-template-columns: 1fr;
@@ -373,7 +420,14 @@ class QuizManager {
         `;
         document.head.appendChild(style);
 
-        console.log('🎉 測驗完成！統計:', stats);
+        console.log('🎉 測驗完成！');
+        console.log('📊 測驗題數:', quizTotal);
+        console.log('📊 記錄題數:', actualAnswered);
+        console.log('📊 統計資料:', stats);
+        
+        if (actualAnswered !== quizTotal) {
+            console.warn(`⚠️ 注意：有 ${quizTotal - actualAnswered} 題因 ID 重複已使用複合 ID 儲存`);
+        }
     }
 
     /**
