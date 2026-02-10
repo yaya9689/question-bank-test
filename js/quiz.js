@@ -209,12 +209,12 @@ class QuizManager {
     }
 
     /**
-     * ✅ 修正：顯示測驗完成畫面（使用實際題目數量）
+     * Show quiz completion screen
      */
     showComplete() {
         const stats = this.storage.getStatistics();
         
-        // ✅ 使用實際完成的題目數量，而非固定 254
+        // ✅ 使用實際完成的題目數量
         const actualTotal = this.questions.length;
         
         const container = document.querySelector('.quiz-container');
@@ -398,9 +398,9 @@ document.addEventListener('DOMContentLoaded', () => {
     window.quizManager = new QuizManager();
 });
 
-// Helper function for vibration (moved to global scope)
-function vibrate(pattern) {
-    if (navigator.vibrate) {
-        navigator.vibrate(pattern);
+// ✅ Global nextQuestion function for HTML onclick
+function nextQuestion() {
+    if (window.quizManager) {
+        window.quizManager.nextQuestion();
     }
 }
