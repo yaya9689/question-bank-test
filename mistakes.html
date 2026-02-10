@@ -116,53 +116,51 @@
         /* 載入狀態 */
         .loading {
             text-align: center;
-            padding: 40px;
             color: var(--white);
+            padding: 40px 20px;
             font-size: 18px;
         }
 
-        .loading::after {
-            content: '...';
-            animation: dots 1.5s infinite;
+        .loading-spinner {
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            border-top: 3px solid var(--primary-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
         }
 
-        @keyframes dots {
-            0%, 20% { content: '.'; }
-            40% { content: '..'; }
-            60%, 100% { content: '...'; }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
-        /* 錯誤訊息 */
+        /* 錯誤訊息樣式 */
         .error-message {
-            color: var(--error-color) !important;
-            font-size: 18px !important;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .retry-btn {
-            background: var(--gradient-primary);
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-left: 4px solid var(--error-color);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
             color: var(--white);
-            border: none;
-            border-radius: 24px;
-            padding: 12px 32px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 4px 16px rgba(66, 133, 244, 0.4);
-            transition: all 0.3s ease;
         }
 
-        .retry-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(66, 133, 244, 0.5);
+        .error-message p {
+            margin: 10px 0;
+            color: var(--white);
+        }
+
+        .error-message .retry-btn {
+            margin-top: 20px;
         }
 
         /* 動畫 */
         .animate-on-scroll {
-            animation: fadeInUp 0.6s ease-out backwards;
+            animation: fadeInUp 0.6s ease-out both;
         }
 
         @keyframes fadeInUp {
@@ -176,39 +174,55 @@
             }
         }
 
-        /* 響應式 */
-        @media (max-width: 768px) {
+        /* 響應式設計 */
+        @media (max-width: 375px) {
             .mistake-question {
                 font-size: 16px;
             }
 
             .answer-row {
                 flex-direction: column;
-                gap: 8px;
             }
 
             .answer-label {
                 min-width: auto;
-                width: fit-content;
             }
+        }
+
+        /* 除錯資訊 (開發時使用，上線時可移除) */
+        .debug-info {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+            font-size: 12px;
+            color: #ccc;
+            font-family: monospace;
+            text-align: left;
+        }
+
+        .debug-info p {
+            margin: 5px 0;
+            color: #ccc;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <header class="page-header">
+        <div class="page-header">
             <button class="back-btn" onclick="goHome()">← 返回首頁</button>
-            <h1>📖 錯題回顧</h1>
-        </header>
+            <h1>❌ 錯題回顧</h1>
+        </div>
 
         <div class="mistakes-container">
             <div class="mistakes-summary" id="mistakesSummary">
-                <p class="loading">載入錯題中</p>
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <p>載入中...</p>
+                </div>
             </div>
-
-            <div class="mistakes-list" id="mistakesList">
-                <!-- Mistakes will be dynamically loaded here -->
-            </div>
+            <div class="mistakes-list" id="mistakesList"></div>
         </div>
     </div>
 
@@ -222,7 +236,7 @@
         });
 
         /**
-         * ✅ 載入錯題列表（已優化並加入錯誤處理）
+         * ✅ 載入錯題列表（已修正並加入完整除錯）
          */
         async function loadMistakes() {
             const storage = new ProgressManager();
@@ -230,6 +244,10 @@
             
             const summaryEl = document.getElementById('mistakesSummary');
             const listEl = document.getElementById('mistakesList');
+
+            // ✅ 除錯：顯示錯題 ID
+            console.log('🔍 錯題 ID:', mistakes);
+            console.log('🔍 錯題數量:', mistakes.length);
 
             // ✅ 檢查是否有錯題
             if (mistakes.length === 0) {
@@ -240,41 +258,104 @@
 
             summaryEl.innerHTML = `<p>你有 <strong>${mistakes.length}</strong> 題答錯。請在下方複習：</p>`;
 
-            // ✅ 使用 loadQuestions() 函數載入題目（統一方式）
+            // ✅ 載入題目
             try {
                 const allQuestions = await loadQuestions();
                 
+                // ✅ 除錯：顯示載入的題目資訊
+                console.log('📚 載入的題目數量:', allQuestions.length);
+                console.log('📝 第一題範例:', allQuestions[0]);
+                console.log('📝 第一題 ID 型別:', typeof allQuestions[0]?.id);
+
                 // ✅ 檢查是否成功載入題目
                 if (!allQuestions || allQuestions.length === 0) {
-                    summaryEl.innerHTML = `
-                        <div class="error-message">
-                            <p>⚠️ 無法載入題目資料</p>
-                            <button class="retry-btn" onclick="loadMistakes()">重新載入</button>
-                        </div>
-                    `;
-                    return;
+                    throw new Error('無法載入題目資料');
                 }
+
+                // ✅ 建立 ID 映射表（優化查找效能）
+                const questionMap = new Map();
+                allQuestions.forEach(q => {
+                    // 同時儲存字串和數字型別的 ID
+                    questionMap.set(String(q.id), q);
+                    questionMap.set(Number(q.id), q);
+                });
+
+                console.log('🗺️ 題目映射表大小:', questionMap.size);
 
                 // ✅ 渲染錯題卡片
                 listEl.innerHTML = '';
+                let foundCount = 0;
+                let notFoundIds = [];
+
                 mistakes.forEach((mistakeId, index) => {
-                    const question = allQuestions.find(q => q.id === mistakeId);
+                    // ✅ 修正：同時嘗試字串和數字型別的 ID
+                    let question = questionMap.get(mistakeId) || 
+                                   questionMap.get(String(mistakeId)) || 
+                                   questionMap.get(Number(mistakeId));
+
+                    // ✅ 如果映射表找不到，使用 find 方法再試一次
+                    if (!question) {
+                        question = allQuestions.find(q => 
+                            q.id == mistakeId || 
+                            String(q.id) === String(mistakeId) ||
+                            Number(q.id) === Number(mistakeId)
+                        );
+                    }
+
                     if (question) {
-                        const mistakeCard = createMistakeCard(question, storage.getAnswer(mistakeId));
+                        foundCount++;
+                        const userAnswer = storage.getAnswer(mistakeId);
+                        const mistakeCard = createMistakeCard(question, userAnswer, index + 1);
                         mistakeCard.classList.add('animate-on-scroll');
                         mistakeCard.style.animationDelay = `${index * 0.1}s`;
                         listEl.appendChild(mistakeCard);
+                        
+                        console.log(`✅ 找到題目 ${mistakeId}:`, question.question.substring(0, 30) + '...');
+                    } else {
+                        notFoundIds.push(mistakeId);
+                        console.warn(`⚠️ 找不到題目 ID: ${mistakeId} (型別: ${typeof mistakeId})`);
                     }
                 });
 
+                // ✅ 顯示統計結果
+                console.log(`✅ 成功載入 ${foundCount}/${mistakes.length} 題`);
+                if (notFoundIds.length > 0) {
+                    console.warn('⚠️ 找不到的題目 ID:', notFoundIds);
+                }
+
+                // ✅ 如果沒有找到任何題目，顯示錯誤
+                if (foundCount === 0) {
+                    summaryEl.innerHTML = `
+                        <div class="error-message">
+                            <p style="font-size: 20px;">⚠️ 無法載入錯題資料</p>
+                            <p style="font-size: 14px; color: rgba(255,255,255,0.7);">
+                                找到 ${mistakes.length} 個錯題 ID，但無法匹配到題目資料
+                            </p>
+                            <button class="btn btn-primary retry-btn" onclick="loadMistakes()">重新載入</button>
+                            <button class="btn btn-secondary" onclick="showDebugInfo()">顯示除錯資訊</button>
+                        </div>
+                    `;
+                } else if (notFoundIds.length > 0) {
+                    // ✅ 部分找到，顯示警告
+                    summaryEl.innerHTML = `
+                        <p>你有 <strong>${mistakes.length}</strong> 題答錯，已載入 <strong>${foundCount}</strong> 題。</p>
+                        <p style="font-size: 14px; color: var(--warning-color); margin-top: 10px;">
+                            ⚠️ 有 ${notFoundIds.length} 題無法載入
+                        </p>
+                    `;
+                }
+
             } catch (error) {
                 // ✅ 錯誤處理
-                console.error('載入錯題失敗:', error);
+                console.error('❌ 載入錯題失敗:', error);
                 summaryEl.innerHTML = `
                     <div class="error-message">
-                        <p>⚠️ 載入失敗，請檢查網路連線</p>
-                        <p style="font-size: 14px; color: var(--text-gray);">錯誤訊息: ${error.message}</p>
-                        <button class="retry-btn" onclick="loadMistakes()">重新載入</button>
+                        <p style="font-size: 20px;">⚠️ 載入失敗</p>
+                        <p style="font-size: 14px; color: rgba(255,255,255,0.7);">
+                            ${error.message}
+                        </p>
+                        <button class="btn btn-primary retry-btn" onclick="loadMistakes()">重新載入</button>
+                        <button class="btn btn-secondary" onclick="goHome()">返回首頁</button>
                     </div>
                 `;
                 listEl.innerHTML = '';
@@ -282,27 +363,27 @@
         }
 
         /**
-         * ✅ 建立錯題卡片
+         * ✅ 建立錯題卡片（已優化）
          */
-        function createMistakeCard(question, userAnswer) {
+        function createMistakeCard(question, userAnswer, questionNumber) {
             const card = document.createElement('div');
             card.className = 'mistake-card';
             
-            const correctAnswerText = question.options[question.correctAnswer];
-            const userAnswerText = userAnswer ? question.options[userAnswer] : '未作答';
+            const userAnswerText = question.options[userAnswer] || '未作答';
+            const correctAnswerText = question.options[question.correctAnswer] || '未知';
 
             card.innerHTML = `
                 <div class="mistake-question">
-                    <strong>第 ${question.id} 題：</strong> ${question.question}
+                    <strong>題目 ${questionNumber}:</strong> ${question.question}
                 </div>
                 <div class="mistake-answers">
                     <div class="answer-row">
-                        <span class="answer-label incorrect">你的答案</span>
-                        <span class="answer-text">${userAnswer || '未作答'}: ${userAnswerText}</span>
+                        <span class="answer-label incorrect">❌ 你的答案</span>
+                        <span class="answer-text">${userAnswer}. ${userAnswerText}</span>
                     </div>
                     <div class="answer-row">
-                        <span class="answer-label correct">正確答案</span>
-                        <span class="answer-text">${question.correctAnswer}: ${correctAnswerText}</span>
+                        <span class="answer-label correct">✅ 正確答案</span>
+                        <span class="answer-text">${question.correctAnswer}. ${correctAnswerText}</span>
                     </div>
                 </div>
             `;
@@ -311,10 +392,32 @@
         }
 
         /**
-         * ✅ 返回首頁
+         * ✅ 顯示除錯資訊（開發用）
          */
-        function goHome() {
-            window.location.href = 'index.html';
+        function showDebugInfo() {
+            const storage = new ProgressManager();
+            const progress = storage.loadProgress();
+            const mistakes = storage.getMistakes();
+
+            const debugDiv = document.createElement('div');
+            debugDiv.className = 'debug-info';
+            debugDiv.innerHTML = `
+                <h3 style="color: var(--primary-color); margin-bottom: 10px;">🔧 除錯資訊</h3>
+                <p><strong>錯題數量:</strong> ${mistakes.length}</p>
+                <p><strong>錯題 ID:</strong> ${JSON.stringify(mistakes)}</p>
+                <p><strong>ID 型別:</strong> ${mistakes.length > 0 ? typeof mistakes[0] : 'N/A'}</p>
+                <p><strong>已回答題數:</strong> ${Object.keys(progress.answers).length}</p>
+                <p><strong>LocalStorage 可用:</strong> ${ProgressManager.isAvailable() ? '是' : '否'}</p>
+                <button class="btn btn-secondary" style="margin-top: 10px;" onclick="this.parentElement.remove()">關閉</button>
+            `;
+
+            document.querySelector('.mistakes-container').insertBefore(
+                debugDiv, 
+                document.getElementById('mistakesList')
+            );
+
+            // 同時輸出到 Console
+            console.log('🔧 完整進度資料:', progress);
         }
     </script>
 </body>
