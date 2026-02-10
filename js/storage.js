@@ -63,7 +63,7 @@ class ProgressManager {
 
     /**
      * Save answer for a question
-     * @param {number} questionId - Question ID
+     * @param {string} questionId - Question ID (可能是複合 ID 如 "q5_10")
      * @param {string} selectedAnswer - Selected answer (A, B, C, or D)
      * @param {boolean} isCorrect - Whether the answer is correct
      */
@@ -94,7 +94,6 @@ class ProgressManager {
             
             // 除錯日誌
             console.log(`💾 答案已儲存 - ID: ${questionId}, 選擇: ${selectedAnswer}, 結果: ${isCorrect ? '✅' : '❌'}`);
-            console.log(`📊 錯題陣列:`, progress.mistakes);
         }
     }
 
