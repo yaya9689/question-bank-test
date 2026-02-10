@@ -62,7 +62,7 @@ class ProgressManager {
     }
 
     /**
-     * ✅ 修正：儲存答案並正確處理錯題陣列
+     * Save answer for a question
      * @param {number} questionId - Question ID
      * @param {string} selectedAnswer - Selected answer (A, B, C, or D)
      * @param {boolean} isCorrect - Whether the answer is correct
